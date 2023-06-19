@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html >
+    <title>Amsterdam Cookies</title>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+    body{
+   background-color: antiquewhite;
+    font-family: serif;
+    font-weight: bolder;
+   padding-bottom: 50px;
+    }
+    .ams{
+    padding-top: 50px;
+    color:saddlebrown;
+    font-size: 25px;
+     }
+    </style>
+</head>
+<body style=" text-align: center">
+    <h1 style="color: SaddleBrown ">Amsterdam Cookies </h1>
+    <h2>
+        Amsterdam cookie: a cookie made of pastry combined with dark chocolate and filled with pure white chocolate praline.
+    </h2>
+    <br />
+    <hr />
+    <br />
+   <div> 
+    <il><img src ="c&c4.jpeg" height="300" width="300" /> </il>
+    <il><img src="תמונות/c&c.am2.jpeg" height="300" width="300" /></il>
+    <il><img src="c&c.am3.jpeg" height="300" width="300" /></il>
+  </div>
+  <div class="ams">
+    <form>
+        <label>Choose the number of cookies you want:</label>
+        <br/>
+        <input type="number" id="amount-amsc" name="amount-amsc" min="0" value="0">
+        <button type="button" onclick="addToCart()"> Add  <i class="bi bi-cart"></i> </button>
+        <button type="button" onclick="changeamount(1)">+</button>
+        <button type="button" onclick="changeamount(-1)">-</button>
+        <button type="button" onclick="restartTotal()">Delete</button>
+        <div id="total-amsc"></div>
+    </form>
+    <br/>
+    <div id="Total"></div>
+</div>
+<script>
+    var quantity = 0;
+    var price = 6;
+    var Total = 0;
+
+    function addToCart() {
+        var amountInput = document.getElementById("amount-amsc");
+        var amount = parseInt(amountInput.value);
+
+        quantity += amount;
+
+        var Totalprice = amount * price;
+
+        Total += Totalprice;
+
+        document.getElementById("Total").innerText = "Total: ₪" + Total.toFixed(2) + " ( " + quantity + " cookies)";
+    }
+
+    function resetatrTotal() {
+        Total = 0;
+        quantity = 0;
+        document.getElementById("Total").innerText = "Total: ₪" + Total.toFixed(2) + " (" + quantity + " cookies)";
+        document.getElementById("amount-amsc").value = quantity;
+    }
+
+    function changeamount(change) {
+        if (quantity + change >= 0) {
+            quantity += change;
+            var Totalprice = price * quantity;
+            Total = Totalprice;
+            document.getElementById("Total").innerText = "Total: ₪" + Total.toFixed(2) + " ( " + quantity + " cookies)";
+            document.getElementById("amount-amsc").value = quantity;
+        }
+    }
+</script>
+</body>
+</html>

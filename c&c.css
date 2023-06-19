@@ -1,0 +1,74 @@
+body{
+
+    background-color: #f8d9de;
+   
+    background-image:url("c&c3.jpg");
+    background-size: auto;
+    background-origin: padding-box;
+     background-repeat: no-repeat;
+     background-position: center;
+    
+    }
+
+    p{
+        padding-bottom: 15px;
+        padding-top: 15px;
+        text-align: center;
+        font-weight:bolder;
+        font-size: xx-large;
+        color:rgb(251, 95, 214);
+        font-family:serif;
+        size: 20px;
+        
+      }
+     
+    .form-control{
+    border-color: #553706c3;
+    border-radius: 4px;
+    border-width: 3px;
+    
+    }
+    
+    .card{
+    background-color:rgba(255, 222, 173, 0.24);
+     border-width:2px;
+     border-radius: 2px;
+     cursor:pointer;
+
+    }
+    .card img{
+    border-radius:0px;
+    }
+    .btn-btn-primary{
+        color: antiquewhite;
+     }
+
+     .list-group {
+        border: 1px solid #000;
+
+        background-color:rgba(255, 222, 173, 0.24);
+       
+       
+    }
+     .list-group-item {
+        border: 1px solid #000;
+        background-color:rgba(255, 222, 173, 0.24);
+       
+    }
+    
+    .list-group-item a {
+        text-decoration: none;
+        color: #000000;
+        font-size: large;
+        font-weight:initial;
+        font-family:serif;
+        background-color:rgba(255, 222, 173, 0.24);
+        
+    }
+    
+    .list-group-item a:hover {
+        color: #ff65d6eb;
+        background-color:rgba(255, 222, 173, 0.24);
+    }
+    
+  
