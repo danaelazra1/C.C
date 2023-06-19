@@ -1,29 +1,144 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>C&C</title>
+    <title>C&C Login</title>
     <link rel="stylesheet" href="bootstrap.min.css">
-    <link rel="stylesheet" href="c&c.css">
+    <style>
+        body {
+           background-image:url("logo.jpg");
+           background-size:auto;
+           background-origin: padding-box;
+           background-repeat:no-repeat;
+           background-position: center;
+           background-size:cover;
+        }
+
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .login-container form {
+            width: 300px;
+            margin-top: 50px;
+        }
+
+        .login-container h2 {
+            color: rgba(232, 57, 182, 0.833);
+            font-size: 85px;
+            margin-bottom: 20px;
+        }
+
+        .login-container .logo {
+            margin-bottom: 30px;
+        }
+
+        .login-container .form-group {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .login-container .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-bottom: 2px solid rgba(255, 82, 206, 1);
+            background-color: transparent;
+            transition: border-bottom-color 0.3s;
+        }
+
+        .login-container .form-group input:focus {
+            outline: none;
+            border-bottom-color: rgba(255, 30, 176, 0.874);
+        }
+
+        .login-container .form-group label {
+            position: absolute;
+            top: 10px;
+            left: 0;
+            font-size: 23px;
+            color: rgb(255,30,176, 0.874);
+            transition: all 0.3s;
+        }
+
+        .login-container .form-group input:focus ~ label,
+        .login-container .form-group input:valid ~ label {
+            top: -20px;
+            font-size: 12px;
+            color: rgba(255, 46, 182, 0.829);
+           
+        }
+
+        .login-container .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .login-container .checkbox-container input {
+            margin-right: 5px;
+        }
+
+        .login-container .forgot-password {
+            font-size: 22px;
+            color: rgba(255, 82, 206, 1);
+            text-decoration: none;
+            transition: color 0.3s;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .login-container .forgot-password:hover {
+            color: rgba(255, 30, 176, 0.874);
+        }
+
+        .login-container .btn-primary {
+            background-color: rgba(255, 82, 206, 1);
+            border:none;
+            padding:10px 20px;
+            font-size: 18px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 45%;
+            line-height: 20%;
+            margin-right: 25%;
+            margin-left: 25%;
+        }
+
+        .login-container .btn-primary:hover {
+            background-color: rgba(255, 30, 176, 0.874);
+        }
+
+    </style>
 </head>
-<body style="text-align: center">
-    <a href="AmsterdamCookies.html">
-        <img src="cookies/picture%2012.jpeg" style="width:250px;height:250px;">
-    </a>
-    <a href="ChocolateChipsCookies.html">
-        <img src="cookies/picture%209.jpeg" style="width:250px;height:250px;">
-    </a>
-    <a href="M&M.html">
-        <img src="cookies/picture%2016.jpeg" style="width:250px;height:250px;">
-    </a>
-    <br />
-    <a href="pretzelcookies.html">
-        <img src="cookies/picture%202.jpeg" style="width:250px;height:250px;">
-    </a>
-    <a href="RainbowCookies.html">
-        <img src="cookies/picture%2034.jpeg" style="width:250px;height:250px;">
-    </a>
-    <a href="BlackReeses.html">
-        <img src="cookies/picture%2028.jpeg" style="width:250px;height:250px;">
-    </a>
+
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form>
+            <div class="form-group">
+                <input type="email" id="email" class="form-control" required>
+                <label for="email">Email address</label>
+            </div>
+
+            <div class="form-group">
+                <input type="password" id="password" class="form-control" required>
+                <label for="password">Password</label>
+            </div>
+
+            <div class="checkbox-container">
+                <input type="checkbox" id="remember" value="">
+                <label for="remember">Remember me</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+               <a style="-webkit-text-fill-color:white" href="c&c.html">Sign in</a></button>
+            
 </body>
 </html>
+
