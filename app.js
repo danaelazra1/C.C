@@ -3,32 +3,34 @@ const express = require('express');
 const webSocket = require('ws');
 const http = require('http');
 const bodyParser = require('body-parser');
-const dotenv = require('dotenv').config()
+const dotenv = require('dotenv').config({path:__dirname+"/config/.env"})
 const app = express();
 const server = http.createServer(app);
 
 app.use(express.static(__dirname+'/views'));
-app.use(bodyParser.json());
+app.use(express.json()); // to enable json communication format
+app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine','ejs'); // future it will be ejs
 const wsServer = new webSocket.Server({server:server}); // webSocket initialization with express server
 
 // wsServer.on()
 
 //----------------------DB INIT----------------------
-// const mongodb = require('mongodb');
-// const mongoClient = mongodb.MongoClient;
-// const connectionURL = 'mongodb://localhost/27017'
-// const dataBaseName = 'CookieBase'
+const mongoose = require('mongoose');
+const dataBaseName = 'ProjectCookies'
+var Schema = mongoose.Schema;
+mongoose.connect(
+  process.env.MONGODB_URI,
+  {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      dbName : dataBaseName
+  }
+        )
+
 
 //Login Success returns Cusotmer obj{.....cart}
 // GET_ALL_PRODUCTS! --> to array
-
-
-
-//-------------------------- A Connection to the DB------------------------
-// mongoClient.connect(connectionURL,{useNewUrlParser : true},(err,client)=>{
-//     client.db
-// })
 
 
 
@@ -36,7 +38,9 @@ const wsServer = new webSocket.Server({server:server}); // webSocket initializat
 //--------------------------- Server Actions------------------------------
 // did not used router- dont have same path with diffrent requests
 app.get('/',(req,res)=>{
-    res.render('c&c'); //render uses the template engine given on the set('engine-view',value) function
+   var oneUser= User.findOne().exec();
+   console.log(oneUser);
+  res.render('c&c'); //render uses the template engine given on the set('engine-view',value) function
 })
 app.get('/login' , (req,res)=>{
   res.render('login'); // 
