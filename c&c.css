@@ -2,11 +2,13 @@ body{
 
     background-color: #f8d9de;
    
-    background-image:url("c&c3.jpg");
+    background-image:url("תמונות/c&c.h1.jpg");
     background-size: auto;
-    background-origin: padding-box;
+    background-origin:content-box;
      background-repeat: no-repeat;
      background-position: center;
+     margin: auto;
+   
     
     }
 
@@ -16,7 +18,7 @@ body{
         text-align: center;
         font-weight:bolder;
         font-size: xx-large;
-        color:rgb(251, 95, 214);
+        color:rgb(255, 255, 255);
         font-family:serif;
         size: 20px;
         
@@ -70,5 +72,18 @@ body{
         color: #ff65d6eb;
         background-color:rgba(255, 222, 173, 0.24);
     }
-    
+ .card-title{
   
+    color:saddlebrown;
+    font-weight: bolder;
+
+    }
+    .card-img-top{
+
+        width: auto;
+        height: 300px;
+    }
+  .card-text{
+    color: rgb(75, 37, 9);
+    font-size: 20px;
+  }

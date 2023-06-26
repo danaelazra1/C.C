@@ -9,40 +9,112 @@
     font-family: serif;
     font-weight: bolder;
    padding-bottom: 50px;
+   font-size: 20px;
     }
     .ch{
     padding-top: 50px;
     color:saddlebrown;
-    font-size: 25px;
+   
+    
      }
+     h2{
+        color: saddlebrown;
+        font-family:serif;
+    }
+    button{
+  margin-top: 8px;
+  padding: 10px 16px;
+  font-size: 16px;
+  background-color:#834009bf;
+  color: rgb(14, 10, 10);
+  border-color:#0b0b0b;
+  border-radius: 7px;
+  cursor: pointer;
+    }
+    input{
+  margin-top: 8px;
+  padding: 10px 16px;
+  font-size: 16px;
+    }
+    
     </style>
 </head>
 <body style=" text-align: center">
-    <h1 style="color: SaddleBrown "> Chocolate Chips Cookies </h1>
+    <canvas id="myCanvas" width="1000" height="120" margin="auto"></canvas>
+    <script>
+      var c = document.getElementById("myCanvas");
+      var ctx = c.getContext("2d");
+      ctx.font = "60px Serif";
+      ctx.strokeText(" Chocolate Chips Cookie", 180, 85);
+    </script>
     <h2>
-        Chocolate Chips cookie: Cookie filled with pure milk chocolate and chocolate chipsa.
+         Cookie filled with pure milk chocolate and chocolate chipsa.
     <br />
     <hr />
     <br />
    <div> 
-    <il><img src="c&c.ch1.jpeg" height="300" width="300" /> </il>
-    <il><img src="c&c.ch2.jpeg" height="300" width="300" /></il>
-    <il><img src="c&c.ch3.jpeg" height="300" width="300" /></il>
-    <il><img src="c&c.ch4.jpeg" height="300" width="300" /> </il>
-    <il><img src="c&c.ch5.jpeg" height="300" width="300" /></il>
-    <il><img src="c&c.ch6.jpeg" height="300" width="300" /></il>
+    <il><img src="תמונות/c&c.ch1.jpeg" height="400" width="400" /> </il>
+    <il><img src="תמונות/c&c.ch4.jpeg" height="400" width="400" /> </il>
+    <il><img src="תמונות/c&c.ch5.jpeg" height="400" width="400" /></il>
+    
   </div>
   <div class="ch">
     <form >
         <label>Choose the number of cookies you want:</label>
         <br/>
-        <input type="number" id="quantity" name="quantity" min="1" max="20">
-        <input type="submit" value="Select">
+        <br/>
+        <input type="number" id="amount-ch" name="amount-ch" min="0" value="0">
+        <button type="button" onclick="addToCart()"> Add  <i class="bi bi-cart"></i> </button>
+        <button type="button" onclick="changeamount(1)">+</button>
+        <button type="button" onclick="changeamount(-1)">-</button>
+        <button type="button" onclick="resetTotal()">Delete</button>
+        <div id="total-amsc"></div>
     </form>
-  </div>
-</body>
-</html>
+    <br/>
+    <div id="Total"></div>
+</div>
+<script>
+    var quantity = 0;
+    var price = 6;
+    var Total = 0;
 
+    function addToCart() {
+        var amountInput = document.getElementById("amount-ch");
+        var amount = parseInt(amountInput.value);
+
+        quantity += amount;
+
+        var Totalprice = amount * price;
+
+        Total += Totalprice;
+
+        document.getElementById("Total").innerText = "Total: ₪" + Total.toFixed(2) + " ( " + quantity + " cookies)";
+    }
+
+    function resetTotal() {
+        Total = 0;
+        quantity = 0;
+        document.getElementById("Total").innerText = "Total: ₪" + Total.toFixed(2) + " (" + quantity + " cookies)";
+        document.getElementById("amount-ch").value = quantity;
+    }
+
+    function changeamount(change) {
+        if (quantity + change >= 0) {
+            quantity += change;
+            var Totalprice = price * quantity;
+            Total = Totalprice;
+            document.getElementById("Total").innerText = "Total: ₪" + Total.toFixed(2) + " ( " + quantity + " cookies)";
+            document.getElementById("amount-ch").value = quantity;
+        }
+    }
+    function deleteItem() {
+    resetTotal(); 
+    document.getElementById("amount-amsc").value = quantity; 
+    }
+
+</script>
+</body>
+</html> 
 
 
 

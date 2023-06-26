@@ -9,36 +9,65 @@
     font-family: serif;
     font-weight: bolder;
    padding-bottom: 50px;
+   font-size:25px;
     }
     .ams{
     padding-top: 50px;
     color:saddlebrown;
-    font-size: 25px;
+    font-size: 38px;
+    
      }
+    h2{
+        color: saddlebrown;
+        font-family:serif;
+    }
+    button{
+  margin-top: 8px;
+  padding: 10px 16px;
+  font-size: 16px;
+  background-color:#835009bf;
+  color: rgb(14, 10, 10);
+  border-color:#0b0b0b;
+  border-radius: 7px;
+  cursor: pointer;
+    }
+    input{
+  margin-top: 8px;
+  padding: 10px 16px;
+  font-size: 16px;
+    }
+    
     </style>
 </head>
-<body style=" text-align: center">
-    <h1 style="color: SaddleBrown ">Amsterdam Cookies </h1>
+<body style=" text-align: center" >
+    <canvas id="myCanvas" width="1000" height="120" margin="auto"></canvas>
+    <script>
+      var c = document.getElementById("myCanvas");
+      var ctx = c.getContext("2d");
+      ctx.font = "80px Serif";
+      ctx.strokeText("Amsterdam Cookie", 180, 85);
+    </script>
     <h2>
-        Amsterdam cookie: a cookie made of pastry combined with dark chocolate and filled with pure white chocolate praline.
+         A cookie made of pastry combined with dark chocolate and filled with pure white chocolate praline.
     </h2>
     <br />
     <hr />
     <br />
    <div> 
-    <il><img src ="c&c4.jpeg" height="300" width="300" /> </il>
-    <il><img src="תמונות/c&c.am2.jpeg" height="300" width="300" /></il>
-    <il><img src="c&c.am3.jpeg" height="300" width="300" /></il>
+    <il><img src ="תמונות/c&c.am1.jpeg" height="500" width="500" /> </il>
+    <il><img src="תמונות/c&c.am5.png" height="500" width="500" /></il>
+    <il><img src="תמונות/c&c.am4.png" height="500" width="500" /></il>
   </div>
   <div class="ams">
     <form>
         <label>Choose the number of cookies you want:</label>
         <br/>
-        <input type="number" id="amount-amsc" name="amount-amsc" min="0" value="0">
-        <button type="button" onclick="addToCart()"> Add  <i class="bi bi-cart"></i> </button>
+        <br/>
+        <input type="number" id="amount-amsc" name="amount-amsc" min="0" value="0" >
+        <button type="button" onclick="addToCart()"> Add <i class="bi bi-cart"></i> </button>
         <button type="button" onclick="changeamount(1)">+</button>
         <button type="button" onclick="changeamount(-1)">-</button>
-        <button type="button" onclick="restartTotal()">Delete</button>
+        <button type="button" onclick="resetTotal()">Delete</button>
         <div id="total-amsc"></div>
     </form>
     <br/>
@@ -62,7 +91,7 @@
         document.getElementById("Total").innerText = "Total: ₪" + Total.toFixed(2) + " ( " + quantity + " cookies)";
     }
 
-    function resetatrTotal() {
+    function resetTotal() {
         Total = 0;
         quantity = 0;
         document.getElementById("Total").innerText = "Total: ₪" + Total.toFixed(2) + " (" + quantity + " cookies)";
@@ -78,6 +107,12 @@
             document.getElementById("amount-amsc").value = quantity;
         }
     }
+
+    function deleteItem() {
+    resetTotal(); 
+    document.getElementById("amount-amsc").value = quantity; 
+    }
+
 </script>
 </body>
 </html>
