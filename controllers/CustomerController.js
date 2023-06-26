@@ -22,6 +22,9 @@ cAndcRender(req,res);
 function getAmsterdam(req,res){
   res.render("amsterdam")
   }
+  function getMaps(req,res){
+    res.render("maps");
+  }
 function getAllCookies(req,res){
 res.render("allcookies")
 }
@@ -132,6 +135,7 @@ const UserLogout = async (req,res)=>{
   module.exports = {
     getAllCustomers,
     getCustomer,
+    getMaps,
     updateCustomer,
     deleteCustomer,
     getIndex,

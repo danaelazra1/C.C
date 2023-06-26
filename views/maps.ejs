@@ -6,56 +6,80 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body {  /* עיצוב רקע */    
-           background-image:url("mapback.jpg");
-           background-size:auto;
-           background-repeat:no-repeat;
-           background-position: center;
-           background-size:cover;
-        }
-   
+    body {
+      background-color: #f8d9de;
+      background-size: auto;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+  
+    .title {
+      text-align: center;
+      color:  rgb(255, 0, 153);
+      font-size:520%;
+      font-family: serif;
+      margin-top: -10px;
+      margin-right: 1%;
+      font-weight: bold;
+    }
+
+    .title2 {
+      text-align: center;
+      color: rgb(255, 0, 153);
+      font-size:260%;
+      font-family: serif;
+      margin-top: -10px;
+      margin-right: 1%;
+      font-weight: bold;
+    }
+  
     .branch {
-      width: 300px;
-      padding: 20px;
+      width: 370px;
+      padding: 5px;
       margin-bottom: 20px;
       border: none;
       border-radius: 5px; 
       font-size: large;
-      font-family: serif;
+      font-family:'Times New Roman', Times, serif;
       font-weight: bold;
+      
     }
-
+  
     .branch-container{
-        position: absolute;
-        background-color: rgba(11, 12, 28, 0);
-        top: 0px;
-        bottom:90px;
-        left:0px;
-        right:0px;
-        width:30%;
-        height:70%;
-        margin:auto;
-        border:none;
-        border-radius: 5pt;
+      background-color: rgba(11, 12, 28, 0);
+      top: 0px;
+      bottom:90px;
+      left:0px;
+      right:0px;
+      width:30%;
+      margin:auto;
+      border:none;
+      text-align: center;
+      color: rgb(0, 0, 0);
     }
-
+  
     .map-container {
-      width: 200%;
-      height: 300px;
-      margin-top: 10px;
+      width: 170%;
+      height: 280px;
+      margin-top: -10px;
       margin-left: -120px;
+      border: 1.8px solid #000000;
+      border-radius: 8px;
     }
-
   </style>
 </head>
+
 <body>
-<p>C&C SHOP</p>
+  <h1 class="title">C&C SHOP</h1>
+  <h2 class="title2">come and visit us</h2>
   <div class="branch-container">
     <div class="branch">
       <div class="branch-details">
         <p>Location: Elie Wiesel St 2, Rishon LeTsiyon</p>
-        <p>Phone:  0523528571</p>
-        <p>Hours: Sunday-Friday 9am-6pm</p>
+        <p>Phone:  0545666341</p>
+        <p>Days: Sunday-Friday</p>
+        <p>Hours: 10:00-20:00</p>
       </div>
       <div class="map-container" id="map"></div>
     </div> 
@@ -72,3 +96,4 @@
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xsqtuuzminYxX_s9sqzILXU2Wv5OrRo&callback=initMap"></script>
 </body>
 </html>
+
