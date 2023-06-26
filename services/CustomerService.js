@@ -1,18 +1,18 @@
-const Customer = require('../models/Customer');
+const Customer = require('../models/CustomerModel');
 //creating customer is auto after registration
 // ID attribute is taken from registered Users
 const createCustomer = async (id, username, name, phoneNumber, address) => {
-    const Customer = new Customer({
+    const customer = new Customer({
         _id : id,
         Username : username,
         Name : name,
         phoneNumber : phoneNumber,
         Address : address
     });
-    return await Customer.save();
+    return await customer.save();
 };
 const getCustomerById = async (id) => {
-    return await Customer.findById(id);
+    return await Customer.findById(id).lean();
 };
 const getAllCustomers = async () => {
     return await Customer.find({});

@@ -1,4 +1,4 @@
-const Product = require('../models/Product');
+const Product = require('../models/ProductModel').ProductModel;
 
 const getTop5ProductsByNumberOfOrders = async () => {
     return await Product.find({}).sort({NumberOfOrders : -1}).limit(5);
@@ -10,7 +10,7 @@ const getProductByPriceMax = async (price) => {
     return await Product.findOne({Price : {$ls : price}});
 };
 const getAllProducts = async () => {
-    return await Product.find({});
+    return await Product.find({}).lean();
 };
 
 const updateNumberOfOrders = async (id)=>{ // TODO ::FOR EVERY PURCHASE!!!! -- ORDERS.PRODUCTS foreach updateNumberOfOrders
@@ -24,14 +24,14 @@ const updateNumberOfOrders = async (id)=>{ // TODO ::FOR EVERY PURCHASE!!!! -- O
 }
 // ------------------------ ONLY FOR ADMINS!!--------------------------------
 const getProductById = async (id) => {
-    return await Product.findById(id);
+    return await Product.findById(id).lean();
 };
 const createProduct = async (productName, price, dateBaked=Date.now, picture) => {
     const Product = new Product({
-        productName : productName,
+        ProductName : productName,
         Price : price,
         NumberOfOrders : 0,
-        dateBaked : dateBaked,
+        DateBaked : dateBaked,
         Picture : picture
     });
     return await Product.save();
@@ -64,6 +64,7 @@ module.exports = {
     getProductByName,
     getProductByPriceMax,
     getAllProducts,
+    updateNumberOfOrders,
     updateProduct,
     deleteProduct
 }

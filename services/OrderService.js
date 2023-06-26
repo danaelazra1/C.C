@@ -1,4 +1,4 @@
-const Order = require('../models/Order');
+const Order = require('../models/OrderModel').OrderModel;
 
 const createOrder = async (products, sniff) => {
     const Order = new Order({
