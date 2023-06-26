@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <style>
+       body { /* עיצוב רקע */    
+           background-image:url("cartBack.jpg");
+           background-size:auto;
+           background-origin: padding-box;
+           background-repeat:no-repeat;
+           background-position: center;
+           background-size:cover;
+        }
+
+        body { /*  עיצוב הכתב של הפרטים */    
+            font-family: serif;
+            font-weight: bold;
+            font-size: large;
+            color: rgb(62, 19, 22);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .payment-container { /* עיצוב התיבות של הפרטים */    
+            width: 250px;
+            height: 360px;
+            padding: 35px;
+            background-color: rgba(255, 222, 173, 0.24);
+            border: 1.5px solid #000000;
+            border-radius: 8px;
+            margin-left: 40px;
+        }
+
+         p{ /* עיצוב הכותרת */    
+            color: rgba(62, 19, 22, 0.753);
+            font-size:65px;
+            margin-bottom: 25px;
+            text-align: center;
+            font-family: serif;
+            font-weight: bold;
+            margin-right: 45px;
+            margin-top: -250px;         
+        }
+
+        .form-group { /* עיצוב של הפרטים */    
+            margin-bottom: 20px;
+        }
+
+        .form-group label { /* עיצוב הריבוע של הפרטים */    
+            display: block;
+            font-weight: bold;
+            margin-bottom: 2px;
+            text-align: left;
+        }
+
+        .form-group input[type="text"] { /* עיצוב התיבות של הפרטים שצריך למלא */    
+            width: 100%;
+            padding: 4px;
+            border: 0px rgba(0, 0, 0, 0.24);
+            border-radius: 3px;
+        }
+
+        /* עיצוב הכפתור של האישור */
+        .form-group button[type="order"] {
+            padding: 10px 25px;
+            font-weight: bold;
+            background-color: #fa318f;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            margin-left: 40px;
+            margin-top: -5px;
+            text-align: center;
+        }
+    </style>
+    <script>
+        function startCookiePreparation() {
+            alert("We start baking your cookies!");
+        }
+    </script>
+</head>
+
+<body>
+    <p>Take Away Payment</p>
+    <div class="payment-container">
+        <form>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Last Name:</label>
+                <input type="text" id="Lastname" name="Lastname" required>
+            </div>
+            <div class="form-group">
+                <label for="card-number">Card Number:</label>
+                <input type="text" id="card-number" name="card-number" required>
+            </div>
+            <div class="form-group">
+                <label for="expiration-date">Expiration Date:</label>
+                <input type="text" id="expiration-date" name="expiration-date" required>
+            </div>
+            <div class="form-group">
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" name="cvv" required>
+            </div>
+            <div class="form-group">
+                <button type="order" onclick="startCookiePreparation()">Order your COOKIES</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+

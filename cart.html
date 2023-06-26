@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <style>
+          
+        body {  /* עיצוב רקע */    
+           background-image:url("cartBack.jpg");
+           background-size:auto;
+           background-origin: padding-box;
+           background-repeat:no-repeat;
+           background-position: center;
+           background-size:cover;
+        }
+
+        body { /* עיצוב רקע */    
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .cart-container { /* עיצוב הריבוע של העגלת קניות  */    
+            position: absolute;
+            top: 50%;
+            left: 55%;
+            transform: translate(-50%, -50%);
+        }
+
+        .cart-container p{ /* עיצוב הכותרת */    
+            color: rgba(62, 19, 22, 0.753);
+            font-size:79px;
+            margin-bottom: 25px;
+            text-align: center;
+            font-family: serif;
+            font-weight: bold;
+            margin-right: 45px;
+            margin-top: 50px;
+         
+        }
+
+        .cart { /* עיצוב הריבוע של הפרטים */    
+            width: 300px;
+            padding: 35px;
+            background-color: rgba(255, 222, 173, 0.24);
+            border: 1px solid #000000;
+            border-radius: 8px;
+            margin-left: 40px;
+        }
+        
+        .cart-item { /* עיצוב הטקסט בתוך התיבה */    
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .cart-item span { /* עיצוב הטקסט בתוך התיבה */    
+            flex-grow: 1;
+            font-weight: bold;
+            font-size: x-large;
+            font-family: serif ;
+        }
+        
+        .cart-item .quantity { /* עיצוב התיבה של מספר העוגיות שנוספו */    
+            width: 50px;
+            font-weight: bold;
+        }
+        
+        .cart-total { /* עיצוב שורת המחיר */    
+            margin-top: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .cart-buttons { /* עיצוב הכפתור של התשלום */    
+            margin-top: 10px;
+            text-align: center;
+            color: #000000;
+            
+        }
+        
+        .cart-buttons button { /* עיצוב הכפתור של האיפוס  */       
+            padding: 5px 10px;
+            
+        }
+    </style>
+</head>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <script>
+        // משתנה המכיל את סכום הכסף הכולל
+        var totalAmount = 0;
+
+        // עדכון המחיר כשמוסיפים פריט
+        function updatePrice(item) {
+            var quantity = item.value; // כמות הפריט שהוזנה
+            var price = 6; // מחיר הפריט
+
+            var itemTotal = quantity * price; // מחיר כולל עבור מוצר מסויים 
+
+            // עדכון סכום הכסף הכולל
+            totalAmount += itemTotal;
+
+            // עדכון התצוגה של סכום הכסף הכולל
+            var totalElement = document.getElementById("cart-total");
+            totalElement.innerHTML = "Total: ₪" + totalAmount;
+        }
+    </script>
+</head>
+<body>
+    <div class="cart-container">
+        <p>Shopping Cart</p>
+        <form>
+            <div class="cart">
+                <div class="cart-item">
+                    <span id="amsterdam-cookies">Amsterdam cookies</span>
+                    <br>
+                    <input type="number" class="quantity" value="0" min="0" onchange="updatePrice(this)">
+                </div>
+                <br>
+                <div class="cart-item">
+                    <span id="chocolate-cookies">Chocolate cookies</span>
+                    <br>
+                    <input type="number" class="quantity" value="0" min="0" onchange="updatePrice(this)">
+                </div>
+                <br>
+                <div class="cart-item">
+                    <span id="m&m-cookies">M & M cookies</span>
+                    <br>
+                    <input type="number" class="quantity" value="0" min="0" onchange="updatePrice(this)">
+                </div>
+                <br>
+                <div class="cart-item">
+                    <span id="special-cookies">Special cookies</span>
+                    <br>
+                    <input type="number" class="quantity" value="0" min="0" onchange="updatePrice(this)">
+                </div>
+
+                <div id="cart-total" class="cart-total">Total: ₪0</div>
+                
+                <div class="cart-buttons">
+                    <button><a href="deliverypay.html" style="text-decoration: none;">Free Delivery Pay</a></button>
+                    <button><a href="tapay.html" style="text-decoration: none;">T.A Pay</a></button>
+                    <button>Empty your Cart</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
