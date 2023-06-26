@@ -1,16 +1,16 @@
 const Order = require('../models/OrderModel').OrderModel;
 
 const createOrder = async (products, sniff) => {
-    const Order = new Order({
+    const order = new Order({
         Products : products,
         Date : Date.now,
         Sniff : sniff
     });
     for(let i=0;i<products.length;i++){
-        Order.Price += products[0].price
+        order.Price += products[0].price
     }
-    Order.Quantity = products.length;
-    return await Order.save();
+    order.Quantity = products.length;
+    return await order.save();
 };
 
 const getOrderById = async (id) => {
@@ -22,37 +22,37 @@ const getAllOrders = async () => {
 };
 
 const updateOrderProducts = async (id, products) => {
-    const Order = await getOrderById(id);
-    if (!Order)
+    const order = await getOrderById(id);
+    if (!order)
         return null;
 
-    Order.Products = products;
-    Order.Quantity = products.length;
-    Order.price = 0;
+    order.Products = products;
+    order.Quantity = products.length;
+    order.price = 0;
     for(let i=0;i<products.length;i++){
-        Order.Price += products[0].price
+        order.Price += products[0].price
     }
-    Order.Date = Date.now;
-    await Order.save();
-    return Order;
+    order.Date = Date.now;
+    await order.save();
+    return order;
 };
 const updateOrderSniff = async (id, sniff) => {
-    const Order = await getOrderById(id);
-    if (!Order)
+    const order = await getOrderById(id);
+    if (!order)
         return null;
 
-    Order.Sniff = sniff
-    Order.Date = Date.now;
-    await Order.save();
-    return Order;
+    order.Sniff = sniff
+    order.Date = Date.now;
+    await order.save();
+    return order;
 };
 const deleteOrder = async (id) => {
-    const Order = await getOrderById(id);
-    if (!Order)
+    const order = await getOrderById(id);
+    if (!order)
         return null;
 
-    await Order.remove();
-    return Order;
+    await order.remove();
+    return order;
 };
 
 module.exports = {

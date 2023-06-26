@@ -21,6 +21,7 @@ const addToCart = async (customerID, productID) => {
         var product = await productService.getProductById(productID)
         console.log(product)
     await cart.Products.push(product)
+    cart.Price+=product.Price;
     await cart.save();
     return cart;
 };
