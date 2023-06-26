@@ -38,8 +38,9 @@ router.route('/special')
 .get(customerController.getSpecialCookies)
 
 router.route('/cart')
-.post(customerController.getCart)
+.get(customerController.getCart)
 
-
+router.route('/maps')
+.get(customerController.getMaps);
 
 module.exports = router;
