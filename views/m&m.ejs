@@ -6,44 +6,112 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <style>
     body{
-   background-color: antiquewhite;
+     background-color: antiquewhite;
     font-family: serif;
     font-weight: bolder;
-   padding-bottom: 50px;
+   padding-bottom: 100px;
+   font-size:20px;
+   color:saddlebrown;
+    
     }
     .mm{
-    padding-top: 50px;
+        padding-top: 50px;
     color:saddlebrown;
-    font-size: 25px;
+    font-size: 30px;
      }
+ button{
+  margin-top: 8px;
+  padding: 10px 16px;
+  font-size: 16px;
+  background-color:#834009bf;
+  color: rgb(14, 10, 10);
+  border-color:#0b0b0b;
+  border-radius: 7px;
+  cursor: pointer;
+    }
+    input{
+  margin-top: 8px;
+  padding: 10px 16px;
+  font-size: 16px;
+    }
+    
     </style>
 </head>
 <body style=" text-align: center">
-    <h1 style="color: SaddleBrown "> M & M Cookies </h1>
+    <canvas id="myCanvas" width="700" height="120" margin="auto"></canvas>
+    <script>
+      var c = document.getElementById("myCanvas");
+      var ctx = c.getContext("2d");
+      ctx.font = "65px Serif";
+      ctx.strokeText("M & M Cookie", 160, 85);
+    </script>
     <h2>
-        M & M cookie: Cookies filled with milk chocolate with M&M.
+     Cookies filled with milk chocolate with M&M.
     </h2>
     <br />
     <hr />
     <br />
    <div> 
-    <il><img src="c&c.mm1.jpeg" height="300" width="300" /> </il>
-    <il><img src="c&c.mm2.jpeg" height="300" width="300" /></il>
-    <il><img src="c&c.mm5.jpeg" height="300" width="300" /></il>
+    <il><img src="תמונות/c&c.mm6.png" height="400" width="400" /> </il>
+    <il><img src="תמונות/c&c.mm7.png" height="400" width="400" /></il>
+    <il><img src="תמונות/c&c.mm1.jpeg" height="400" width="400" /></il>
   </div>
   <div class="mm">
     <form >
         <label>Choose the number of cookies you want:</label>
         <br/>
-        <input type="number" id="quantity" name="quantity" min="1" max="20">
-        <input type="submit" value="Select">
+        <br/>
+        <input type="number" id="amount-mm" name="amount-mm" min="0" value="0">
+        <button type="button" onclick="addToCart()"> Add  <i class="bi bi-cart"></i> </button>
+        <button type="button" onclick="changeamount(1)">+</button>
+        <button type="button" onclick="changeamount(-1)">-</button>
+        <button type="button" onclick="resetTotal()">Delete</button>
+        <div id="total-mm"></div>
     </form>
-  </div>
+    <br/>
+    <div id="Total"></div>
+</div>
+<script>
+    var quantity = 0;
+    var price = 6;
+    var Total = 0;
+
+    function addToCart() {
+        var amountInput = document.getElementById("amount-mm");
+        var amount = parseInt(amountInput.value);
+
+        quantity += amount;
+
+        var Totalprice = amount * price;
+
+        Total += Totalprice;
+
+        document.getElementById("Total").innerText = "Total: ₪" + Total.toFixed(2) + " ( " + quantity + " cookies)";
+    }
+
+    function resetTotal (){
+        Total = 0;
+        quantity = 0;
+        document.getElementById("Total").innerText = "Total: ₪" + Total.toFixed(2) + " (" + quantity + " cookies)";
+        document.getElementById("amount-mm").value = quantity;
+    }
+
+    function changeamount(change) {
+        if (quantity + change >= 0) {
+            quantity += change;
+            var Totalprice = price * quantity;
+            Total = Totalprice;
+            document.getElementById("Total").innerText = "Total: ₪" + Total.toFixed(2) + " ( " + quantity + " cookies)";
+            document.getElementById("amount-mm").value = quantity;
+        }
+    }
+    function deleteItem() {
+    resetTotal(); 
+    document.getElementById("amount-amsc").value = quantity; 
+    }
+</script>
 </body>
 </html>
-
-
-
 
 
 

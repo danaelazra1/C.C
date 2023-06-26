@@ -8,6 +8,7 @@ const ProductSchema = new Schema({
     Price : Number,
     NumberOfOrders : Number,
     DateBaked : Date,
+    Description : String,
     Picture : String
 });
 

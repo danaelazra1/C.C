@@ -26,25 +26,27 @@ const updateNumberOfOrders = async (id)=>{ // TODO ::FOR EVERY PURCHASE!!!! -- O
 const getProductById = async (id) => {
     return await Product.findById(id).lean();
 };
-const createProduct = async (productName, price, dateBaked=Date.now, picture) => {
+const createProduct = async (productName, price, dateBaked=Date.now, description , picture) => {
     const Product = new Product({
         ProductName : productName,
         Price : price,
         NumberOfOrders : 0,
         DateBaked : dateBaked,
+        Description : description,
         Picture : picture
     });
     return await Product.save();
 };
-const updateProduct = async (id, productName, price, dateBaked, picture) => {
-    const Product = await getProductById(id);
-    if (!Product)
+const updateProduct = async (id, productName, price, dateBaked,description ,picture) => {
+    const product = await getProductById(id);
+    if (!product)
         return null;
 
-    Product.productName = productName;
-    Product.Price = price;
-    Product.title = dateBaked;
-    Product.title = picture;
+    product.ProductName = productName;
+    product.Price = price;
+    product.Date = dateBaked;
+    product.Picture = picture;
+    product.Description = description;
     await Product.save();
     return Product;
 };

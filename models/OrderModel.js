@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 const OrderSchema = new Schema({
     _id : {type : ObjectId , auto: true},
     Quantity : Number,
-    Products : [Product.ProductSchema],
+    Products : [{type : ObjectId, ref : 'Product'}], // make sure delete product wont make error
     Price: Number,
     Date : Date,
     Sniff : String

@@ -3,7 +3,6 @@ const UserService = require('../services/UserService');
 const productService = require('../services/ProductService')
 const cartService = require('../services/CartService')
 
-var cart = null;
 var Cust = null;
 var products;
 
@@ -92,7 +91,7 @@ const deleteCustomer = async (req, res) => {
 
 const createUserAdmin = async (req, res) => {
         const newUser = await UserService.createUser(req.body.username,req.body.password);
-        if(!newUser){
+        if(newUser){
           res.redirect('register');
         }else{
           if(!newUser.isAdmin){
@@ -122,28 +121,11 @@ const UserAdminLogin = async (req, res) => {
         }
       };
     
-    const UserLogout = async (req,res)=>{
+const UserLogout = async (req,res)=>{
         req.session.destroy(()=>{
             res.redirect('/login')
         })
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
