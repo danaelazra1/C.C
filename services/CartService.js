@@ -12,18 +12,22 @@ const createCart = async (customerID, products) => {
     return await cart.save();
 };
 const getCartByCustomerId = async (customerId) => {
-    return await Cart.findOne({CustomerID: customerId});
+    return await Cart.findOne({CustomerID: customerId}).populate('Products');
 };
 const addToCart = async (customerID, productID) => {
-    const cart = await getCartByCustomerId(customerID);
+    let cart = await getCartByCustomerId(customerID);
     if (!cart)
         return null;
         var product = await productService.getProductById(productID)
-        console.log(product)
     await cart.Products.push(product)
     cart.Price+=product.Price;
     await cart.save();
     return cart;
+};
+
+
+const removeFromCart = async (customerID, productID) => {
+    return await Cart.updateOne({customerID : customerID},{$pull : {Products : productID}})
 };
 //---------------------------- ONLY FOR ADMINS!!!!---------------------------------
 const getAllCarts = async () => {
@@ -42,5 +46,6 @@ module.exports = {
     getCartByCustomerId,
     getAllCarts,
     addToCart,
+    removeFromCart,
     deleteCart
 }

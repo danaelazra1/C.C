@@ -22,7 +22,6 @@ const wsServer = new webSocket.Server({server:server}); // webSocket initializat
 
 wsServer.on('connection',  socket=>{
 socket.on('message',async (message)=>{
-  console.log(process.env.API_URL + message+ process.env.API_KEY)
   const response = await fetch(process.env.API_URL + message+ process.env.API_KEY);
   var data = await response.json();
   socket.send(JSON.stringify(data));

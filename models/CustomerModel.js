@@ -10,8 +10,7 @@ const CustomerSchema = new Schema({
     phoneNumber : String,
     Address : String,
     Orders : [{type : Order.OrderSchema,ref : 'Order' }],
-    
-
-},{_id : false});
+    },
+    {_id : false});
 
 module.exports = mongoose.model('Customer', CustomerSchema);

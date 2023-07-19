@@ -39,14 +39,14 @@
                       <a href="/login">Login</a>
                        <% }%>
                 </li>
-                <li class="list-group-item">All cookies</a></li>
-                <li class="list-group-item">
+                <!-- <li class="list-group-item">sort by</a></li> -->
+               <!--  <li class="list-group-item">
                     <div class="list-group">
                         <a href="/amsterdam" class="list-group-item list-group-item-action">Amsterdam cookies</a>
                         <a href="/m&m" class="list-group-item list-group-item-action">M & M cookies</a>
                         <a href="/chocolate" class="list-group-item list-group-item-action">Chocolate chips cookies</a>
     
-                    </div>
+                    </div> -->
                 </li>
                 <li class="list-group-item">
                   <a href="/maps">Maps</a>
@@ -54,26 +54,30 @@
               <li class="list-group-item">
                 <a href="/cart">Shopping cart <i class="bi bi-cart"></i></a>
             </li>
+            <li class="list-group-item">
+              <input type="checkbox" value="Price" name="price">
+          </li>
             </ul>
            </div>
            <div class="col">
-            <div class="row">
+            <!-- <div class="row">
                 <button class="btn btn-secondary col-2 m-2">All</button>
                 <button class="btn btn-light col-2 m-2">Favourites</a></button>
               
-            </div>
+            </div> -->
                  <div class="row">
                     			
             <% Products.forEach(function(product){ %>
 	            <div class="card col-sm-6 col-md-4 col-lg-4">
-                        <img src=<%= product.Picture %> class="card-img-top" alt="logo.jpeg">
+                        <img src=<%= product.Picture %> class="card-img-top">
                      <div class="card-body">
                           <h5 class="card-title"><%= product.ProductName%> : <%= product.Price%>₪ </h5>
                           <p class="card-text"> <%= product.Description %></p>
                                                <br/>  
-                         <form action="/newProduct" method="post">
-                            <input type="hidden" name='productID' value=<%= product._id%> >
-                          <button type="submit" class="btn btn-primary">Add to cart  <i class="bi bi-cart"></i></button>
+                         <form> 
+                          <!-- action="/newProduct" method="post" -->
+                            <!-- <input type="hidden" name='productID'  > -->
+                          <button value=<%= product._id%> type="submit" class="btn btn-primary">Add to cart  <i class="bi bi-cart"></i></button>
                         </form>
                       </div>
 	</div>
