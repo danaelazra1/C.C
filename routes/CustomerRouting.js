@@ -43,4 +43,7 @@ router.route('/cart')
 router.route('/maps')
 .get(customerController.getMaps);
 
+router.route('/admin')
+.get(customerController.getAdmin);
+
 module.exports = router;

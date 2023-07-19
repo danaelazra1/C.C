@@ -25,6 +25,9 @@ function getAmsterdam(req,res){
   function getMaps(req,res){
     res.render("maps");
   }
+  function getAdmin(req,res){
+    res.render("admin");
+  }
 function getAllCookies(req,res){
 res.render("allcookies")
 }
@@ -150,5 +153,6 @@ const UserLogout = async (req,res)=>{
     GetRegister,
     createUserAdmin,
     UserAdminLogin,
-    UserLogout
+    UserLogout,
+    getAdmin
   };
