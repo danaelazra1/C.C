@@ -1,4 +1,4 @@
-/* c&c import */
+/* c&c import/inherit */
 body{ 
 
     background-color: #f8d9de;
@@ -122,5 +122,10 @@ body{
     padding-top: 3%;
     text-decoration: underline;
   } 
-  
+
+  .row justify-content-center{
+    padding-top: 3%; 
+    padding-left: 15%; 
+    padding-right: 15%
+  }
 
