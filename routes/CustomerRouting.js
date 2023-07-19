@@ -5,10 +5,11 @@ const customerController = require('../controllers/CustomerController')
 router.route('/')
 .get(customerController.getIndex)
 
-router.route('/newProduct')
+router.route('/addProduct')
 .post(customerController.addProductToCart)
 
-
+router.route('/removeProduct')
+.post(customerController.removeProductFromCart); //TODO :: Add functionality to cart products
 
 router.route('/login')
 .get(customerController.GetLogin)
@@ -39,11 +40,14 @@ router.route('/special')
 
 router.route('/cart')
 .get(customerController.getCart)
+.post(customerController.getCartProducts)
 
 router.route('/maps')
 .get(customerController.getMaps);
 
-router.route('/admin')
-.get(customerController.getAdmin);
+
+
+// router.route('/purchaseCart')
+// .post(customerController.purchaseCart); //TODO :: Add functionality to purchase cart
 
 module.exports = router;

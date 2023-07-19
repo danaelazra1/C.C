@@ -7,7 +7,6 @@ require('dotenv').config({path:__dirname+"/config/.env"})
 const app = express();
 const server = http.createServer(app);
 const session = require('express-session'); // saving users information on backstage
-
 app.use(express.static(__dirname+'/views'));
 app.use(express.json()); // to enable json communication format
 app.use(bodyParser.urlencoded({extended:true}));
@@ -17,13 +16,20 @@ app.use(session({
   saveUninitialized: false,
   resave: false
 }))
+
+//-------------------Websocket comuunication - Weather data with OpenWeather-------------------
 const wsServer = new webSocket.Server({server:server}); // webSocket initialization with express server
 
-// wsServer.on()
+wsServer.on('connection',  socket=>{
+socket.on('message',async (message)=>{
+  const response = await fetch(process.env.API_URL + message+ process.env.API_KEY);
+  var data = await response.json();
+  socket.send(JSON.stringify(data));
+})
+})
 
 //----------------------DB INIT----------------------
 const mongoose = require('mongoose');
-var Schema = mongoose.Schema;
 mongoose.connect(
   process.env.MONGODB_URI,
   {
@@ -32,14 +38,11 @@ mongoose.connect(
       dbName : process.env.DATA_BASE_NAME
   }
         )
-
-
 //--------------------------- Server Actions------------------------------
 
 app.use('/',require('./routes/CustomerRouting'))
 
 
 
-server.listen(process.env.SERVER_PORT); // process.env."ENV.PROPERTY"
+server.listen(process.env.SERVER_PORT);
 
-//--------------------------------Socket Actions------------------------------------

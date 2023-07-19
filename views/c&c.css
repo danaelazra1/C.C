@@ -2,7 +2,7 @@ body{
 
     background-color: #f8d9de;
    
-    background-image:url("תמונות/c&c.h1.jpg");
+    background-image:url("images/c&c.h1.jpg");
     background-size: auto;
     background-origin:content-box;
      background-repeat: no-repeat;
@@ -11,9 +11,6 @@ body{
    
     
     }
-/*form button{
-    
-}*/
     p{
         padding-bottom: 15px;
         padding-top: 15px;
@@ -88,4 +85,26 @@ body{
   .card-text{
     color: rgb(75, 37, 9);
     font-size: 20px;
+  }
+  .card-weather{
+    width: 5%;
+    background: linear-gradient(135deg, #00feba, #5b548a);
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px 5px;
+    text-align: center;
+    float: left;
+  }
+  .weather-icon{
+    width: 50px;
+    margin-top: 10px;
+  }
+
+  .card-weather h1{
+    font-size:20px ;
+    font-weight: 200;
+  }
+  .card-weather h2{
+    font-size:15px ;
+    font-weight: 100;
   }

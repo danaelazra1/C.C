@@ -6,7 +6,6 @@ const cartService = require('../services/CartService')
 var Cust = null;
 var products;
 
-
 async function cAndcRender(req,res){
   products = await productService.getAllProducts();
   res.render("c&c",{Cust:Cust , Products : products})
@@ -40,8 +39,17 @@ function getChoclateChipsCookies(req,res){
 function getSpecialCookies(req,res){
     res.render("special");
 }
-function getCart(req,res){
-      res.render("cart");
+
+
+async function getCartProducts(req,res){
+  let cart = await cartService.getCartByCustomerId(Cust._id);
+      res.status(200);
+      res.send({products : cart.Products, price : cart.Price});
+}
+async function getCart(req,res){
+  // let cart = await cartService.getCartByCustomerId(Cust._id);
+      // res.render("cart",{Cart : cart , Products : cart.Products});
+      res.render('cart');
 }
 function GetLogin(req,res){
   res.render('login',{});
@@ -54,8 +62,18 @@ function GetRegister(req,res){
  // ------------------------------ CRUD ++ ------------------------------------
 async function addProductToCart(req,res){
 if(req.session.UserID!= null){ //user is logged in
- await cartService.addToCart(req.session.UserID,req.body.productID )
+ await cartService.addToCart(req.session.UserID,req.body.productID)
+ res.status(201);
+ res.send("added to cart!")
 }
+}
+
+async function removeProductFromCart(req,res){
+  if(req.session.UserID!= null){ //user is logged in
+   let cart = await cartService.removeFromCart(req.session.UserID,req.body.ProductID);
+  res.status(202);
+ res.send({products : cart.Products,price : cart.Price});
+  }
 }
 const getAllCustomers = async (req, res) => {
     const Customers = await CustomerService.getAllCustomers();
@@ -96,15 +114,15 @@ const deleteCustomer = async (req, res) => {
   };
 
 const createUserAdmin = async (req, res) => {
-        const newUser = await UserService.createUser(req.body.username,req.body.password);
-        if(newUser){
+        const newUser = await UserService.createUser(req.body.username,req.body.password); // BUG
+        if(newUser == null){
           res.redirect('register');
         }else{
           if(!newUser.isAdmin){
          Cust = await CustomerService.createCustomer(newUser.id,req.body.username,req.body.name,req.body.phoneNumber,req.body.address)
         req.session.UserID=newUser.id;
         await cartService.createCart(Cust.id,[]);
-        cAndcRender(req,res)
+        res.redirect('/');
           }else{
             res.render('adminPage');
           }
@@ -121,14 +139,14 @@ const UserAdminLogin = async (req, res) => {
           }else{
         req.session.UserID = User.id;
         Cust = await CustomerService.getCustomerById(User.id);
-        cart = await cartService.getCartByCustomerId(User.id);
-        cAndcRender(req,res)
+        res.redirect('/');
           }
         }
       };
     
 const UserLogout = async (req,res)=>{
         req.session.destroy(()=>{
+          Cust=null;
             res.redirect('/login')
         })
     }
@@ -148,7 +166,9 @@ const UserLogout = async (req,res)=>{
     getChoclateChipsCookies,
     getSpecialCookies,
     addProductToCart,
+    removeProductFromCart,
     getCart,
+    getCartProducts,
     GetLogin,
     GetRegister,
     createUserAdmin,

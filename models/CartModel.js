@@ -6,7 +6,7 @@ const CartSchema = new Schema({
     _id : {type : ObjectId , auto: true},
     CustomerID : { type: ObjectId, ref : 'Customer'},
     Products : [{type : ObjectId, ref : 'Product'}],
-    Price : Number
+    Price : {type :'Number' , defualt: 0}
     
 });
 
