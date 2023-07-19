@@ -123,7 +123,7 @@ body{
     text-decoration: underline;
   } 
 
-  .row-admin{
+  .row{
     padding-top: 3%; 
     padding-left: 15%; 
     padding-right: 15%;
@@ -138,5 +138,10 @@ body{
   .col-4{
     border: 1px solid rgb(61, 139, 135);
     font-size: large;
+  } 
+
+  h5{ 
+    text-align: center; 
+    font-weight: bolder;   
   }
 
