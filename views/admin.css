@@ -123,9 +123,20 @@ body{
     text-decoration: underline;
   } 
 
-  .row justify-content-center{
+  .row-admin{
     padding-top: 3%; 
     padding-left: 15%; 
-    padding-right: 15%
+    padding-right: 15%;
+    justify-content: center;
+  }
+
+  .col-3{
+    border: 1px solid rgb(61, 139, 135);
+    font-size: large;
+  } 
+
+  .col-4{
+    border: 1px solid rgb(61, 139, 135);
+    font-size: large;
   }
 
