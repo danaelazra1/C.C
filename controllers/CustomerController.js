@@ -124,7 +124,7 @@ const createUserAdmin = async (req, res) => {
         await cartService.createCart(Cust.id,[]);
         res.redirect('/');
           }else{
-            res.redirect('/admin/');
+            res.redirect('/admin');
           }
         }
     };
@@ -135,7 +135,7 @@ const UserAdminLogin = async (req, res) => {
          res.redirect('/login');
         }else{
           if(User.isAdmin){
-            res.redirect('/admin/');
+            res.redirect('/admin');
           }else{
         req.session.UserID = User.id;
         Cust = await CustomerService.getCustomerById(User.id);
