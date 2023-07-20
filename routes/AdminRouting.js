@@ -3,5 +3,7 @@ const adminController = require('../controllers/AdminController')
 var router = express.Router();
 
 
-router.route('/admin').
-get()
+router.route('/admin/')
+.get(adminController.renderAdminPage);
+
+module.exports = router;

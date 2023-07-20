@@ -40,7 +40,8 @@ mongoose.connect(
         )
 //--------------------------- Server Actions------------------------------
 
-app.use('/',require('./routes/CustomerRouting'))
+app.use('/admin/',require('./routes/AdminRouting')); // WIP
+app.use('/',require('./routes/CustomerRouting'));
 
 
 

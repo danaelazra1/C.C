@@ -24,9 +24,9 @@ function getAmsterdam(req,res){
   function getMaps(req,res){
     res.render("maps");
   }
-  function getAdmin(req,res){ // TODO: Migrate to AdminController 
-    res.render("admin");
-  }
+  // function getAdmin(req,res){ // TODO: Migrate to AdminController 
+  //   res.render("admin");
+  // }
 function getAllCookies(req,res){
 res.render("allcookies")
 }
@@ -124,7 +124,7 @@ const createUserAdmin = async (req, res) => {
         await cartService.createCart(Cust.id,[]);
         res.redirect('/');
           }else{
-            res.render('adminPage');
+            res.redirect('/admin/');
           }
         }
     };
@@ -135,7 +135,7 @@ const UserAdminLogin = async (req, res) => {
          res.redirect('/login');
         }else{
           if(User.isAdmin){
-            res.render('adminPage');
+            res.redirect('/admin/');
           }else{
         req.session.UserID = User.id;
         Cust = await CustomerService.getCustomerById(User.id);
@@ -174,5 +174,5 @@ const UserLogout = async (req,res)=>{
     createUserAdmin,
     UserAdminLogin,
     UserLogout,
-    getAdmin // TODO: Migrate to AdminController
+    //getAdmin // TODO: Migrate to AdminController
   };

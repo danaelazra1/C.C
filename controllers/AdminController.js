@@ -7,7 +7,7 @@ const cartService = require('../services/CartService')
 async function renderAdminPage(req,res){
    // --------------await operations-------------------
    
-    res.render('/admin')
+    res.render("admin");
 }
 
 function getAdminIndex(req,res){
