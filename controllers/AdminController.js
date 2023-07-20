@@ -6,8 +6,18 @@ const cartService = require('../services/CartService')
 
 async function renderAdminPage(req,res){
    // --------------await operations-------------------
+   const User = await UserService.getUserById(req.session.UserID);
+    if(User == null){
+        res.send("Unauthorized");
+        return;
+    }
+    if(User.isAdmin){
+        res.render("admin");
+    }
+    // else {    Needed Not Admin
+        
+    // }
    
-    res.render("admin");
 }
 
 function getAdminIndex(req,res){
