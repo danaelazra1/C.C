@@ -24,9 +24,7 @@ function getAmsterdam(req,res){
   function getMaps(req,res){
     res.render("maps");
   }
-  // function getAdmin(req,res){ // TODO: Migrate to AdminController 
-  //   res.render("admin");
-  // }
+  
 function getAllCookies(req,res){
 res.render("allcookies")
 }
@@ -174,5 +172,4 @@ const UserLogout = async (req,res)=>{
     createUserAdmin,
     UserAdminLogin,
     UserLogout,
-    //getAdmin // TODO: Migrate to AdminController
   };

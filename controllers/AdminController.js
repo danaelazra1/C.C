@@ -8,7 +8,7 @@ var products;
 
 async function cAndcRender(req,res){
   products = await productService.getAllProducts();
-  res.render("c&c",{Cust:Cust , Products : products})
+  res.render("c&c",{Cust:Cust , Products : products});
 }
 
 async function renderAdminPage(req,res){

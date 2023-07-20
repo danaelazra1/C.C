@@ -45,9 +45,6 @@ router.route('/cart')
 router.route('/maps')
 .get(customerController.getMaps);
 
-// router.route('/admin')
-// .get(customerController.getAdmin); // TODO: Migrate to AdminRouting
-
 // router.route('/purchaseCart')
 // .post(customerController.purchaseCart); //TODO :: Add functionality to purchase cart
 
