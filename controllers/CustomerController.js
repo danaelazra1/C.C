@@ -134,10 +134,10 @@ const UserAdminLogin = async (req, res) => {
         if (User == null) {
          res.redirect('/login');
         }else{
+          req.session.UserID = User.id;
           if(User.isAdmin){
             res.redirect('/admin');
           }else{
-        req.session.UserID = User.id;
         Cust = await CustomerService.getCustomerById(User.id);
         res.redirect('/');
           }
