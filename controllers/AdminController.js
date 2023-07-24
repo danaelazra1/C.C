@@ -23,22 +23,32 @@ async function renderAdminPage(req,res){
         cAndcRender(req,res);
     }
     else{
-        const products = await productService.getAllProducts();
-        const customers = await CustomerService.getAllCustomers();
-        const orders = await orderService.getAllOrders();
-        res.status(200); // Need to check if required
-        res.render("admin",{Products:products, Customers:customers, Orders:orders});
-    }
+        //const productList = await productService.getAllProducts();
+        //const customerList = await CustomerService.getAllCustomers();
+        //const orderList = await orderService.getAllOrders();
+        //console.log(products);
+        //res.status(200); // Need to check if required
+        //res.render("admin",{Products:productList, Customers:customerList, Orders:orderList});
+        res.render("admin");
+    } 
     
-   
+} 
+
+async function getLists(req,res){
+    const productList = await productService.getAllProducts();
+    const customerList = await CustomerService.getAllCustomers();
+    const orderList = await orderService.getAllOrders();
+    res.status(200);
+    res.send({Products:productList, Customers:customerList, Orders:orderList});
 }
 
-function getAdminIndex(req,res){
+// function getAdminIndex(req,res){
     
-}
+// }
 
 
 module.exports = {
     renderAdminPage,
+    getLists
 
 }

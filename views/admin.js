@@ -8,7 +8,7 @@ function loadLists(){
     $(".customerList").empty();
     $(".orderList").empty(); 
     $.ajax({
-        method: "GET", // check if OK instead of POST
+        method: "POST", // 
         url: "/admin", // could be just / ?
         success : function(res){
             res.Products.forEach(product => { 

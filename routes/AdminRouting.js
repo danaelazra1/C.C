@@ -4,6 +4,7 @@ var router = express.Router();
 
 
 router.route('/')
-.get(adminController.renderAdminPage);
+.get(adminController.renderAdminPage)
+.post(adminController.getLists);
 
 module.exports = router;
