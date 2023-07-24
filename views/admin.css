@@ -147,4 +147,7 @@ body{
   /* h6{
     text-align: center;
   } */
+  table{
+    width:25%;
+  }
 

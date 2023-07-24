@@ -8,17 +8,20 @@ function loadLists(){
     $(".customerList").empty();
     $(".orderList").empty(); 
     $.ajax({
-        method: "POST", // 
-        url: "/admin", // could be just / ?
+        method: "POST", 
+        url: "/admin", 
         success : function(res){
+            let header = $('<tr><th>ID</th><th>Name</th><th>Price</th><th>Number Of Orders</th><th>Date Baked</th><th>Description</th></tr>') 
+            $(".productList").append(header);
             res.Products.forEach(product => { 
-                let item = $('<div class="product-item"></div>');
-                let name = $('<h6>'+product.ProductName+'</h6>');
-                let price = $('<h6>'+product.Price+'</h6>'); 
-                let numberOfOrders = $('<h6>'+product.NumberOfOrders+'</h6>');
-                let dateBaked = $('<h6>'+product.DateBaked+'</h6>');
-                let description = $('<h6>'+product.Description+'</h6>');
-                item.append([name,price,numberOfOrders,dateBaked,description]);
+                let item = $('<tr class="product-item"></tr>');
+                let id = $('<td>'+product._id+'</td>');
+                let name = $('<td>'+product.ProductName+'</td>');
+                let price = $('<td>'+product.Price+'</td>'); 
+                let numberOfOrders = $('<td>'+product.NumberOfOrders+'</td>');
+                let dateBaked = $('<td>'+product.DateBaked+'</td>');
+                let description = $('<td>'+product.Description+'</td>');
+                item.append([id,name,price,numberOfOrders,dateBaked,description]);
                 $(".productList").append(item);
                 
                 
