@@ -9,6 +9,14 @@ body{
      background-repeat: no-repeat;
      background-position: center;
      margin: auto;
+    
+     /*Added for admin */
+     text-align: center;
+     padding-top: 3%; 
+     padding-bottom: 3%;
+     padding-left: 15%; 
+     padding-right: 15%;
+     justify-content: center; 
    
     
     }
@@ -114,12 +122,19 @@ body{
 
   h2{
     text-align: center; 
-    font-weight: bolder
+    font-weight: bolder;
+    padding-top: 3%; 
   } 
 
   h4{
     text-align: center;
     padding-top: 3%;
+    text-decoration: underline;
+  } 
+  h3{
+    text-align: center;
+    padding-top: 3%;
+    padding-bottom: 2%;
     text-decoration: underline;
   } 
 
@@ -130,26 +145,69 @@ body{
     justify-content: center;
   }
 
-  .col-3{
+  /* .col-3{
     border: 1px solid rgb(61, 139, 135);
-    font-size: large;
-  } 
+    font-size:medium;
+    overflow:auto; 
+  }
 
   .col-4{
     border: 1px solid rgb(61, 139, 135);
     font-size: large;
-    min-width: 0;
-    min-height: 0;
+    
   } 
 
   h5{ 
     text-align: center; 
     font-weight: bolder;   
   } 
-  /* h6{
-    text-align: center;
-  } */
+  Old Struct*/
   table{
-    width:25%;
+    width:fit-content; /*Might need changing*/
+    border: 5px solid rgb(61, 139, 135);
+    font-size:medium;
+    /* overflow:auto; */
+    
+  } 
+  
+  tr{
+    border:inherit;
+    padding-left: inherit;
+    
   }
+  td{
+    border:inherit;
+    font-weight:bolder;
+    background-color:khaki; /* Ask if preferable */
+    padding-left: inherit;
+  }
+  th{
+    border:inherit;
+    text-decoration: underline;
+    background-color:khaki; /* Ask if preferable */
+    padding-left: inherit;
+  }
+  .input-group{
+    width:75%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    padding-left: 35%;
+  }
+  .form-check-label{
+    font-weight:bolder;
+    color:navy;
+    background-color:peru; /* Temp, Ask if preferable */
+  } 
+  .form-check-inline{
+    padding-bottom: 2%;
+  } 
+   /* img.resize{      Add Product Image? 
+    background-color: inherit;
+    width: 30%;
+    height: auto;
+    
+  } */
+  
+  
 
+  

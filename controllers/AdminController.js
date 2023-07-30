@@ -42,6 +42,12 @@ async function getLists(req,res){
     res.send({Products:productList, Customers:customerList, Orders:orderList});
 }
 
+async function readProduct(req,res){
+    const product = await productService.getProductById(req.body.SearchProductID);
+    res.status(200);
+    res.send({Product:product});
+}
+
 // function getAdminIndex(req,res){
     
 // }
@@ -49,6 +55,7 @@ async function getLists(req,res){
 
 module.exports = {
     renderAdminPage,
-    getLists
+    getLists,
+    readProduct
 
 }
