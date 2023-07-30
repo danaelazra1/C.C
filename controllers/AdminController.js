@@ -43,6 +43,7 @@ async function getLists(req,res){
 }
 
 async function readProduct(req,res){
+    console.log(req.body.SearchProductID);
     const product = await productService.getProductById(req.body.SearchProductID);
     res.status(200);
     res.send({Product:product});
