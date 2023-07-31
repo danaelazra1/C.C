@@ -1,6 +1,7 @@
-$(document).ready(function(){
+jQuery(function(){
     loadProducts();
-    $('input:radio[name="CategoryRadioOptions"]').change(function(){
+    $('input:radio[name="CategoryRadioOptions"]').on("change",function(){
+        console.log("Radio registered");
         if ($(this).val() == 'Product') 
         {
             loadProducts();
@@ -12,19 +13,63 @@ $(document).ready(function(){
             loadOrders();
         }
 
-
     }) 
-    $("#SearchProduct").on('click',function(event){
-        console.log("click registered");
-        if($('input:radio[name="ProductActionRadioOptions"]').val() == 'Read')
-        {
-            console.log("Radio registered");
+    
+    
+    $(".presentation").on("click",".Search",function(){
+        const searchCategory = $(this).val();
+        const action = $(".presentation").find('input[type="radio"]:checked').val();
+        if(searchCategory == "SearchProduct") {
+           if(action == "Read" ){
             loadProductToRead();
+           }
+           else if(action == "Update") {
+            console.log("Update Product")
+           }
+           else {
+            console.log("Delete Product")
+           }
+        } 
+        else if(searchCategory == "SearchCustomer") {
+            if(action == "Read" ){
+             console.log("Read Customer");
+            }
+            else if(action == "Update") {
+             console.log("Update Customer")
+            }
+            else {
+             console.log("Delete Customer")
+            }
+         }
+         else {
+            if(action == "Read" ){
+            console.log("Read Order");
+           }
+           else if(action == "Update") {
+            console.log("Update Order")
+           }
+           else {
+            console.log("Delete Order")
+           }
         }
 
     })
 
 }) 
+
+
+// $(document).on('change', function(){
+//     $('#SearchProduct').on('click',function(){
+//         console.log("click registered");
+//         alert("click registered");
+//         // if($('input:radio[name="ProductActionRadioOptions"]').val() == 'Read')
+//         // {
+//         //     console.log("Radio registered");
+//         //     loadProductToRead();
+//         // }
+
+//     })
+//  });
 
 function loadProducts(){
     // $(".productList").empty();
@@ -35,14 +80,13 @@ function loadProducts(){
         method: "POST", 
         url: "/admin", 
         success : function(res){
-
             let ProductAdminControl = $('<div class="ProductAdminControl"></div>');
             $(".presentation").append(ProductAdminControl);
             let productTable = $('<table name="productTable" class="productTable"></table>');
             $(".presentation").append(productTable);
 
             let SearchProductID =$('<div class="input-group"><input class="form-control border-end-0 border rounded-pill" type="search" name="SearchProductID" placeholder="Enter ID" id="example-search-input">\
-                                    <div class="input-group-append"><button class="btn bg-white border-bottom-0 border rounded-pill ms-n5" type="button" id="SearchProduct"><i class="fa fa-search"></i></button>\
+                                    <div class="input-group-append"><button id="SearchProduct" value="SearchProduct" class="btn bg-white border-bottom-0 border rounded-pill ms-n5 Search"><i class="fa fa-search"></i></button>\
                                     <button class="btn bg-white border-bottom-0 border rounded-pill ms-n5" type="button" id="ListALLProducts">List All</button></div></div>');
             let ProductAction =$('<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ProductActionRadioOptions" id="ReadRadio" value="Read" checked><label class="form-check-label" for="ReadRadio">Read</label></div>\
                                   <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ProductActionRadioOptions" id="UpdateRadio" value="Update"><label class="form-check-label" for="UpdateRadio">Update</label></div>\
@@ -86,7 +130,7 @@ function loadCustomers(){
             $(".presentation").append(customerTable);
 
             let SearchCustomerID =$('<div class="input-group"><input class="form-control border-end-0 border rounded-pill" type="search" name="SearchCustomerID" placeholder="Enter ID" id="example-search-input">\
-                                    <div class="input-group-append"><button class="btn bg-white border-bottom-0 border rounded-pill ms-n5" type="button" id="SearchCustomer"><i class="fa fa-search"></i></button>\
+                                    <div class="input-group-append"><button id="SearchCustomer" class="btn bg-white border-bottom-0 border rounded-pill ms-n5 Search" type="button" value="SearchCustomer"><i class="fa fa-search"></i></button>\
                                     <button class="btn bg-white border-bottom-0 border rounded-pill ms-n5" type="button" id="ListALLCustomers">List All</button></div></div>');
             let CustomerAction =$('<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="CustomerActionRadioOptions" id="ReadRadio" value="Read" checked><label class="form-check-label" for="ReadRadio">Read</label></div>\
                                   <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="CustomerActionRadioOptions" id="UpdateRadio" value="Update"><label class="form-check-label" for="UpdateRadio">Update</label></div>\
@@ -129,7 +173,7 @@ function loadOrders(){
             $(".presentation").append(orderTable);
 
             let SearchOrderID =$('<div class="input-group"><input class="form-control border-end-0 border rounded-pill" type="search" name="SearchOrderID" placeholder="Enter ID" id="example-search-input">\
-                                    <div class="input-group-append"><button class="btn bg-white border-bottom-0 border rounded-pill ms-n5" type="button" id="SearchOrder"><i class="fa fa-search"></i></button>\
+                                    <div class="input-group-append"><button id="SearchOrder" class="btn bg-white border-bottom-0 border rounded-pill ms-n5 Search" type="button" value="SearchOrder"><i class="fa fa-search"></i></button>\
                                     <button class="btn bg-white border-bottom-0 border rounded-pill ms-n5" type="button" id="ListALLOrders">List All</button></div></div>');
             let OrderAction =$('<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="OrderActionRadioOptions" id="ReadRadio" value="Read" checked><label class="form-check-label" for="ReadRadio">Read</label></div>\
                                   <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="OrderActionRadioOptions" id="UpdateRadio" value="Update"><label class="form-check-label" for="UpdateRadio">Update</label></div>\
@@ -160,7 +204,7 @@ function loadProductToRead(){
     $(".productTable").detach();
     $.ajax({
         method: "POST",
-        url: "/readProduct",
+        url: "/admin/readProduct",
         success: function(res){
             let productTable = $('<table name="productTable" class="productTable"></table>');
             $(".presentation").append(productTable);

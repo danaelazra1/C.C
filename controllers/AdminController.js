@@ -38,20 +38,20 @@ async function getLists(req,res){
     const productList = await productService.getAllProducts();
     const customerList = await CustomerService.getAllCustomers();
     const orderList = await orderService.getAllOrders();
+    const body = req.body;
     res.status(200);
     res.send({Products:productList, Customers:customerList, Orders:orderList});
 }
 
 async function readProduct(req,res){
-    console.log(req.body.SearchProductID);
     const product = await productService.getProductById(req.body.SearchProductID);
     res.status(200);
     res.send({Product:product});
 }
 
-// function getAdminIndex(req,res){
+function getAdminIndex(req,res){
     
-// }
+}
 
 
 module.exports = {
