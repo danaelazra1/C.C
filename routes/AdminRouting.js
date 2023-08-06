@@ -8,5 +8,7 @@ router.route('/')
 .post(adminController.getLists); 
 
 router.route('/readProduct').post(adminController.readProduct);
+router.route('/readCustomer').post(adminController.readCustomer);
+router.route('/readOrder').post(adminController.readOrder);
 
 module.exports = router;

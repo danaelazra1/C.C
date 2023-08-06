@@ -10,6 +10,7 @@ const session = require('express-session'); // saving users information on backs
 app.use(express.static(__dirname+'/views'));
 app.use(express.json()); // to enable json communication format
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(express.urlencoded({extended:true}));
 app.set('view engine','ejs');
 app.use(session({
   secret: 'UserID',    
