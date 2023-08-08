@@ -66,11 +66,12 @@ jQuery(function(){
 
     $(".presentation").on("click",".List",function(){
         const listCategory = $(this).val();
+        const ReadRadioID = $(this).attr("id");
         
-        if(listCategory == "ListAllProducts") {
+        if(listCategory == "ListAllProducts" || ReadRadioID == "ReadProductRadio") {
             listProducts();
         } 
-        else if(listCategory == "ListAllCustomers") {
+        else if(listCategory == "ListAllCustomers"|| ReadRadioID == "ReadCustomerRadio") {
             listCustomers();
         }
         else {
@@ -78,8 +79,14 @@ jQuery(function(){
         }
     }) 
 
-    $(".presentation").on("click","#CreateRadio",function(){
+    $(".presentation").on("click","#CreateProductRadio",function(){
         loadProductForm();
+    })
+
+    $(".presentation").on("click",".product-create",function(){
+        const ProductValArray = [];
+        $(".presentation").find('input[type="text"]').toArray().forEach(textbox => ProductValArray.push(textbox.value));
+        createProduct(ProductValArray);
     })
 
 }) 
@@ -102,10 +109,10 @@ function loadProducts(){
             let SearchProductID =$('<div class="input-group"><input class="form-control border-end-0 border rounded-pill" type="search" name="SearchProductID" placeholder="Enter ID" id="search-input">\
                                     <div class="input-group-append"><button type="submit" id="SearchProduct" value="SearchProduct" class="btn bg-white border-bottom-0 border rounded-pill ms-n5 Search"><i class="fa fa-search"></i></button>\
                                     <button class="btn bg-white border-bottom-0 border rounded-pill ms-n5 List" type="submit" id="ListALLProducts" value="ListAllProducts">List All</button></div></div>');
-            let ProductAction =$('<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ProductActionRadioOptions" id="ReadRadio" value="Read" checked><label class="form-check-label" for="ReadRadio">Read</label></div>\
-                                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ProductActionRadioOptions" id="CreateRadio" value="Create"><label class="form-check-label" for="CreateRadio">Create</label></div>\
-                                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ProductActionRadioOptions" id="UpdateRadio" value="Update"><label class="form-check-label" for="UpdateRadio">Update</label></div>\
-                                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ProductActionRadioOptions" id="DeleteRadio" value="Delete"><label class="form-check-label" for="DeleteRadio">Delete</label></div>');
+            let ProductAction =$('<div class="form-check form-check-inline"><input class="form-check-input List" type="radio" name="ProductActionRadioOptions" id="ReadProductRadio" value="Read" checked><label class="form-check-label" for="ReadRadio">Read</label></div>\
+                                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ProductActionRadioOptions" id="CreateProductRadio" value="Create"><label class="form-check-label" for="CreateProductRadio">Create</label></div>\
+                                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ProductActionRadioOptions" id="UpdateProductRadio" value="Update"><label class="form-check-label" for="UpdateProductRadio">Update</label></div>\
+                                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ProductActionRadioOptions" id="DeleteProductRadio" value="Delete"><label class="form-check-label" for="DeleteProductRadio">Delete</label></div>');
             $(".ProductAdminControl").append([SearchProductID,ProductAction]);                      
 
             let header = $('<tr><th>ID</th><th>Name</th><th>Price</th><th>Number Of Orders</th><th>Date Baked</th><th>Description</th></tr>') 
@@ -200,31 +207,33 @@ function loadProductToRead(ID){
 
 function loadProductForm(){
     $(".productTable").detach();
+    let productForm = $('<div class ="container productTable"><form class ="create-form">\
+                         <div class="row"><div class ="col-25"><label for="productName">Product Name</label></div><div class ="col-75">\
+                         <input class="form-control border-end-0 border rounded-pill" type="text" name="productName" placeholder="Enter Name" id="productName"> </div> </div>\
+                         <div class="row"><div class ="col-25"><label for="productPrice">Product Price</label></div><div class ="col-75">\
+                         <input class="form-control border-end-0 border rounded-pill" type="text" name="productPrice" placeholder="Enter Price" id="productPrice"> </div> </div>\
+                         <div class="row"><div class ="col-25"><label for="productDescription">Product Description</label></div><div class ="col-75">\
+                         <input class="form-control border-end-0 border rounded-pill" type="text" name="productDescription" placeholder="Enter Description" id="productDescription"> </div> </div>\
+                         <div class="row"><div class ="col-25"><label for="productPicture">Product Picture</label></div><div class ="col-75">\
+                         <input class="form-control border-end-0 border rounded-pill" type="text" name="productPicture" placeholder="Enter Picture" id="productPicture"> </div> </div>\
+                         <div class="row"><button class="btn border-bottom-0 border ms-n5 product-create" type="button" id="CreateProduct" value="CreateProduct">Submit</button></div></div>');
+    $(".presentation").append(productForm);
+    
+} 
+
+function createProduct(product) {
     $.ajax({
         method: "POST",
-        url: "/admin/readProduct",
-        data: {ProductID:ID},
+        url: "/admin/createNewProduct",
+        data: {Product:product},
         success: function(res){
-            let productTable = $('<table name="productTable" class="productTable"></table>');
-            $(".presentation").append(productTable);
-            let header = $('<tr><th>ID</th><th>Name</th><th>Price</th><th>Number Of Orders</th><th>Date Baked</th><th>Description</th></tr>') 
-            $(".productTable").append(header);
-            product = res.Product; 
-            let item = $('<tr class="product-item"></tr>');
-            let id = $('<td>'+product._id+'</td>');
-            // let img = $('<img class="resize" src='+product.Picture+' class="card-img-top">') Need to add in item.append and Header to work
-            let name = $('<td>'+product.ProductName+'</td>');
-            let price = $('<td>'+product.Price+'</td>'); 
-            let numberOfOrders = $('<td>'+product.NumberOfOrders+'</td>');
-            let dateBaked = $('<td>'+product.DateBaked+'</td>');
-            let description = $('<td>'+product.Description+'</td>');
-            item.append([id,name,price,numberOfOrders,dateBaked,description]);
-            $(".productTable").append(item);
+            alert("Product: "+res.Product+" Successfully Created");
+            loadProductForm();
 
         }, 
         error: function (xhr, status, error) {
             // Handle the error and show an alert message
-            console.error('Error loading product:', error);
+            console.error('Error creating product:', error);
             // xhr.responseJSON.error - XMLHttpRequest object that contains the original error sent from res.
             if (xhr.responseJSON && xhr.responseJSON.error) {
                 alert(xhr.responseJSON.error);
@@ -232,9 +241,8 @@ function loadProductForm(){
                 alert('An unknown error occurred. Please try again later.');
               }
           }
-
     })
-} 
+}
 
 function loadCustomers(){
     // $(".productList").empty();
@@ -254,9 +262,9 @@ function loadCustomers(){
             let SearchCustomerID =$('<div class="input-group"><input class="form-control border-end-0 border rounded-pill" type="search" name="SearchCustomerID" placeholder="Enter ID" id="search-input">\
                                     <div class="input-group-append"><button id="SearchCustomer" class="btn bg-white border-bottom-0 border rounded-pill ms-n5 Search" type="submit" value="SearchCustomer"><i class="fa fa-search"></i></button>\
                                     <button class="btn bg-white border-bottom-0 border rounded-pill ms-n5 List" type="submit" id="ListALLCustomers" value="ListAllCustomers">List All</button></div></div>');
-            let CustomerAction =$('<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="CustomerActionRadioOptions" id="ReadRadio" value="Read" checked><label class="form-check-label" for="ReadRadio">Read</label></div>\
-                                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="CustomerActionRadioOptions" id="UpdateRadio" value="Update"><label class="form-check-label" for="UpdateRadio">Update</label></div>\
-                                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="CustomerActionRadioOptions" id="DeleteRadio" value="Delete"><label class="form-check-label" for="DeleteRadio">Delete</label></div>');
+            let CustomerAction =$('<div class="form-check form-check-inline"><input class="form-check-input List" type="radio" name="CustomerActionRadioOptions" id="ReadCustomerRadio" value="Read" checked><label class="form-check-label" for="ReadCustomerRadio">Read</label></div>\
+                                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="CustomerActionRadioOptions" id="UpdateCustomerRadio" value="Update"><label class="form-check-label" for="UpdateCustomerRadio">Update</label></div>\
+                                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="CustomerActionRadioOptions" id="DeleteCustomerRadio" value="Delete"><label class="form-check-label" for="DeleteCustomerRadio">Delete</label></div>');
             $(".CustomerAdminControl").append([SearchCustomerID,CustomerAction]);                      
 
             let header = $('<tr><th>ID</th><th>Username</th><th>Name</th><th>Phone Number</th><th>Address</th><th>Orders</th></tr>') 
@@ -306,7 +314,8 @@ function listCustomers(){
             
         }
     })
-}
+} 
+
 
 function loadCustomerToRead(ID){
     $.ajax({
@@ -363,9 +372,9 @@ function loadOrders(){
             let SearchOrderID =$('<div class="input-group"><input class="form-control border-end-0 border rounded-pill" type="search" name="SearchOrderID" placeholder="Enter ID" id="search-input">\
                                     <div class="input-group-append"><button id="SearchOrder" class="btn bg-white border-bottom-0 border rounded-pill ms-n5 Search" type="submit" value="SearchOrder"><i class="fa fa-search"></i></button>\
                                     <button class="btn bg-white border-bottom-0 border rounded-pill ms-n5 List" type="submit" id="ListALLOrders" value="ListAllOrders">List All</button></div></div>');
-            let OrderAction =$('<div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="OrderActionRadioOptions" id="ReadRadio" value="Read" checked><label class="form-check-label" for="ReadRadio">Read</label></div>\
-                                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="OrderActionRadioOptions" id="UpdateRadio" value="Update"><label class="form-check-label" for="UpdateRadio">Update</label></div>\
-                                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="OrderActionRadioOptions" id="DeleteRadio" value="Delete"><label class="form-check-label" for="DeleteRadio">Delete</label></div>');
+            let OrderAction =$('<div class="form-check form-check-inline"><input class="form-check-input List" type="radio" name="OrderActionRadioOptions" id="ReadOrderRadio" value="Read" checked><label class="form-check-label" for="ReadOrderRadio">Read</label></div>\
+                                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="OrderActionRadioOptions" id="UpdateOrderRadio" value="Update"><label class="form-check-label" for="UpdateOrderRadio">Update</label></div>\
+                                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="OrderActionRadioOptions" id="DeleteOrderRadio" value="Delete"><label class="form-check-label" for="DeleteOrderRadio">Delete</label></div>');
             $(".OrderAdminControl").append([SearchOrderID,OrderAction]);                      
 
             let header = $('<tr><th>ID</th><th>Quantity</th><th>Products</th><th>Price</th><th>Date</th><th>Sniff</th></tr>') 

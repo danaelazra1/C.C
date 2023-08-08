@@ -207,6 +207,43 @@ body{
     height: auto;
     
   } */
+  .create-form{
+    width:75%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    border: 5px solid navy;
+    margin-left: 15%;
+    
+  } 
+  .col-25 {
+    width: 25%;
+    margin-top: 6px;
+ }
+
+ .col-75  {
+   width: 75%;
+   margin-top: 6px;
+ } 
+ 
+ label	{
+   display: inline-block;
+   padding-right: 5%;
+   text-decoration: underline;
+   font-weight: bolder;
+   background-color:limegreen;
+ }
+ .product-create{
+  width: 50%;
+  font-weight:bolder;
+  color:navy;
+  background-color:peru;
+}
+ .product-create:hover{
+    width: 50%;
+    font-weight:bolder;
+    color:navy;
+    background-color:peru;
+ }
   
   
 

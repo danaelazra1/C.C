@@ -26,8 +26,8 @@ const updateNumberOfOrders = async (id)=>{ // TODO ::FOR EVERY PURCHASE!!!! -- O
 const getProductById = async (id) => {
     return await Product.findById(id).lean();
 };
-const createProduct = async (productName, price, dateBaked=Date.now, description , picture) => {
-    const Product = new Product({
+const createProduct = async (productName, price, description , picture, dateBaked=Date.now()) => {
+    const product = new Product({
         ProductName : productName,
         Price : price,
         NumberOfOrders : 0,
@@ -35,7 +35,7 @@ const createProduct = async (productName, price, dateBaked=Date.now, description
         Description : description,
         Picture : picture
     });
-    return await Product.save();
+    return await Product.insertMany(product);
 };
 const updateProduct = async (id, productName, price, dateBaked,description ,picture) => {
     const product = await getProductById(id);
