@@ -17,16 +17,16 @@ const getCustomerById = async (id) => {
 const getAllCustomers = async () => {
     return await Customer.find({});
 };
-const updateCustomer = async (id, name, phoneNumber, address) => { // update details about customer
+const updateCustomer = async (id, name, phonenumber, address) => { // update details about customer
     const customer = await getCustomerById(id);
     if (!customer)
         return null;
 
     customer.Name =name;
-    customer.phoneNumber = phoneNumber;
+    customer.phoneNumber = phonenumber;
     customer.Address = address;
-    await customer.save();
-    return Customer;
+    
+    return await Customer.updateMany({_id:id}, {$set:{Name: name,phoneNumber: phonenumber,Address: address,}});
 //*after order is created maybe need to update customer orders */
 };
  //------------------------------ ONLY FOR ADMINS!!!!----------------------------

@@ -9,7 +9,9 @@ router.route('/')
 
 router.route('/readProduct').post(adminController.readProduct);
 router.route('/createNewProduct').post(adminController.createNewProduct);
+router.route('/updateAProduct').post(adminController.updateAProduct);
 router.route('/readCustomer').post(adminController.readCustomer);
+router.route('/updateACustomer').post(adminController.updateACustomer);
 router.route('/readOrder').post(adminController.readOrder);
 
 module.exports = router;

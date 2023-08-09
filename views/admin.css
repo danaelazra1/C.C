@@ -207,7 +207,7 @@ body{
     height: auto;
     
   } */
-  .create-form{
+  .load-form{
     width:75%;
     padding-top: 2%;
     padding-bottom: 2%;
@@ -232,13 +232,13 @@ body{
    font-weight: bolder;
    background-color:limegreen;
  }
- .product-create{
+ .item-submit{
   width: 50%;
   font-weight:bolder;
   color:navy;
   background-color:peru;
 }
- .product-create:hover{
+.item-submit:hover{
     width: 50%;
     font-weight:bolder;
     color:navy;

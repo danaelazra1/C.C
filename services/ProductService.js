@@ -44,11 +44,10 @@ const updateProduct = async (id, productName, price, dateBaked,description ,pict
 
     product.ProductName = productName;
     product.Price = price;
-    product.Date = dateBaked;
+    product.DateBaked = dateBaked;
     product.Picture = picture;
     product.Description = description;
-    await Product.save();
-    return Product;
+    return await Product.updateMany({_id:id}, {$set:{ProductName: productName,Price: price,DateBaked: dateBaked,Description: description,Picture: picture}});
 };
 const deleteProduct = async (id) => {
     const Product = await getProductById(id);

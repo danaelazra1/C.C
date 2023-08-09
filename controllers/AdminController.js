@@ -59,7 +59,19 @@ function isValidID(id){
         return false;
     }
     return false;
-}
+} 
+
+// Responsible for Date Validation for each relevant function
+function isValidDate(input){
+    if (!input || isNaN(Date.parse(input)) || input.trim() === '') { return false;}
+    return true;
+} 
+//Phone Number Validation
+function isValidPhoneNumber(input){
+    phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+    if (!input || !input.match(phoneRegex) || input.trim() === '') { return false;}
+    return true;
+} 
 
 async function readProduct(req,res){
     
@@ -88,7 +100,6 @@ async function readProduct(req,res){
 async function createNewProduct(req,res){
     
     const product = req.body.Product;
-
     if (!isValidString(product[0])) { return res.status(400).send({ error: 'Invalid Product Name' })}
     if (!isValidNumber(product[1])) { return res.status(400).send({ error: 'Invalid Product Price' })}
     if (!isValidString(product[2])) { return res.status(400).send({ error: 'Invalid Product Description' })}
@@ -101,7 +112,29 @@ async function createNewProduct(req,res){
         console.error('Error fetching product:', error);
         res.status(500).send({ error: 'Internal Server Error' });
     }
-}
+} 
+
+async function updateAProduct(req,res){
+    
+    const product = req.body.Product;
+    if (!isValidID(product[0])) { return res.status(400).send({ error: 'ID Altered! Do Not Delete The ID Field!' })}
+    if (!isValidString(product[1])) { return res.status(400).send({ error: 'Invalid Product Name' })}
+    if (!isValidNumber(product[2])) { return res.status(400).send({ error: 'Invalid Product Price' })}
+    if (!isValidDate(product[3])) { return res.status(400).send({ error: 'Invalid Date. Enter as (Year-Month-Date Time) format' })}
+    if (!isValidString(product[4])) { return res.status(400).send({ error: 'Invalid Product Description' })}
+    if (!isValidString(product[5])) { return res.status(400).send({ error: 'Invalid Product Picture' })}
+    try {
+        const UpdatedProduct = await productService.updateProduct(product[0],product[1],product[2],new Date(product[3]),product[4],product[5]);
+        if (!UpdatedProduct) {
+            return res.status(404).send({ error: 'Product not found' });
+        }
+        res.status(200).send({ Product: product[1] });
+    } catch (error) {
+         // Handle any errors that may occur during the database operation
+        console.error('Error fetching product:', error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+} 
 
 async function readCustomer(req,res){
 
@@ -125,7 +158,27 @@ async function readCustomer(req,res){
         console.error('Error fetching product:', error);
         res.status(500).send({ error: 'Internal Server Error' });
     }
-}
+} 
+
+async function updateACustomer(req,res){
+    
+    const customer = req.body.Customer;
+    if (!isValidID(customer[0])) { return res.status(400).send({ error: 'ID Altered! Do Not Delete The ID Field!' })}
+    if (!isValidString(customer[1])) { return res.status(400).send({ error: 'Invalid Customer Name' })}
+    if (!isValidPhoneNumber(customer[2])) { return res.status(400).send({ error: 'Invalid Phone Number' })}
+    if (!isValidString(customer[3])) { return res.status(400).send({ error: 'Invalid Address' })}
+    try {
+        const UpdatedCustomer = await CustomerService.updateCustomer(customer[0],customer[1],customer[2],customer[3]);
+        if (!UpdatedCustomer) {
+            return res.status(404).send({ error: 'Customer not found' });
+        }
+        res.status(200).send({ Customer: customer[1] });
+    } catch (error) {
+         // Handle any errors that may occur during the database operation
+        console.error('Error fetching product:', error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+} 
 async function readOrder(req,res){
 
     const orderId = req.body.OrderID;
@@ -160,7 +213,9 @@ module.exports = {
     getLists,
     readProduct,
     createNewProduct,
+    updateAProduct,
     readCustomer,
+    updateACustomer,
     readOrder
 
 }

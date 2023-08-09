@@ -1,3 +1,4 @@
+
 jQuery(function(){
     loadProducts();
     $('input:radio[name="CategoryRadioOptions"]').on("change",function(){
@@ -23,7 +24,6 @@ jQuery(function(){
         // $(".presentation").find('input[type="radio"]').toArray().forEach(radio => valArray.push(radio.value));
         // console.log(valArray);
         const ID = $(".presentation").find('input[type="search"]').val();
-        //console.log(ID);
         
         if(searchCategory == "SearchProduct") {
            if(action == "Create") {
@@ -33,7 +33,7 @@ jQuery(function(){
             loadProductToRead(ID);
            }
            else if(action == "Update") {
-            console.log("Update Product")
+            loadProductToUpdate(ID);
            }
            else {
             console.log("Delete Product")
@@ -44,7 +44,7 @@ jQuery(function(){
              loadCustomerToRead(ID);
             }
             else if(action == "Update") {
-             console.log("Update Customer")
+            loadCustomerToUpdate(ID);
             }
             else {
              console.log("Delete Customer")
@@ -55,7 +55,7 @@ jQuery(function(){
             loadOrderToRead(ID);
            }
            else if(action == "Update") {
-            console.log("Update Order")
+            //loadOrderToUpdate(ID);
            }
            else {
             console.log("Delete Order")
@@ -87,10 +87,28 @@ jQuery(function(){
         const ProductValArray = [];
         $(".presentation").find('input[type="text"]').toArray().forEach(textbox => ProductValArray.push(textbox.value));
         createProduct(ProductValArray);
+    }) 
+
+    $(".presentation").on("click",".item-update",function(){
+        ItemType = $(this).val();
+        
+        const ID = $(".presentation").find('input[type="search"]').val();
+        const ValArray = [ID];
+        $(".presentation").find('input[type="text"]').toArray().forEach(textbox => ValArray.push(textbox.value));
+        if(ItemType == "UpdateProduct"){
+            updateProduct(ValArray);
+        } 
+        else if(ItemType == "UpdateCustomer"){
+            updateCustomer(ValArray);
+        } 
+        else {
+            //updateOrder(ValArray);
+        }
     })
 
 }) 
 
+//        PRODUCT CRUD FUNCTIONS
 
 function loadProducts(){
     // $(".productList").empty();
@@ -207,7 +225,7 @@ function loadProductToRead(ID){
 
 function loadProductForm(){
     $(".productTable").detach();
-    let productForm = $('<div class ="container productTable"><form class ="create-form">\
+    let productForm = $('<div class ="container productTable"><form class ="load-form">\
                          <div class="row"><div class ="col-25"><label for="productName">Product Name</label></div><div class ="col-75">\
                          <input class="form-control border-end-0 border rounded-pill" type="text" name="productName" placeholder="Enter Name" id="productName"> </div> </div>\
                          <div class="row"><div class ="col-25"><label for="productPrice">Product Price</label></div><div class ="col-75">\
@@ -216,7 +234,7 @@ function loadProductForm(){
                          <input class="form-control border-end-0 border rounded-pill" type="text" name="productDescription" placeholder="Enter Description" id="productDescription"> </div> </div>\
                          <div class="row"><div class ="col-25"><label for="productPicture">Product Picture</label></div><div class ="col-75">\
                          <input class="form-control border-end-0 border rounded-pill" type="text" name="productPicture" placeholder="Enter Picture" id="productPicture"> </div> </div>\
-                         <div class="row"><button class="btn border-bottom-0 border ms-n5 product-create" type="button" id="CreateProduct" value="CreateProduct">Submit</button></div></div>');
+                         <div class="row"><button class="btn border-bottom-0 border ms-n5 item-submit product-create" type="button" id="CreateProduct" value="CreateProduct">Submit</button></div></div>');
     $(".presentation").append(productForm);
     
 } 
@@ -243,6 +261,68 @@ function createProduct(product) {
           }
     })
 }
+
+function loadProductToUpdate(ID){
+    $.ajax({
+        method: "POST",
+        url: "/admin/readProduct",
+        data: {ProductID:ID},
+        success: function(res){
+            $(".productTable").detach();
+            product = res.Product;
+            let productUpdateForm = $('<div class ="container productTable"><form class ="load-form">\
+                                       <div class="row"><div class ="col-25"><label for="productName">Product Name</label></div><div class ="col-75">\
+                                       <input class="form-control border-end-0 border rounded-pill" type="text" name="productName" value="'+product.ProductName+'" placeholder="Enter Name" id="productName"> </div> </div>\
+                                       <div class="row"><div class ="col-25"><label for="productPrice">Product Price</label></div><div class ="col-75">\
+                                       <input class="form-control border-end-0 border rounded-pill" type="text" name="productPrice" value="'+product.Price+'" placeholder="Enter Price" id="productPrice"> </div> </div>\
+                                       <div class="row"><div class ="col-25"><label for="productDate">Product Date</label></div><div class ="col-75">\
+                                       <input class="form-control border-end-0 border rounded-pill" type="text" name="productDate" value="'+product.DateBaked+'" placeholder="Enter Date Baked" id="productDate"> </div> </div>\
+                                       <div class="row"><div class ="col-25"><label for="productDescription">Product Description</label></div><div class ="col-75">\
+                                       <input class="form-control border-end-0 border rounded-pill" type="text" name="productDescription" value="'+product.Description+'" placeholder="Enter Description" id="productDescription"> </div> </div>\
+                                       <div class="row"><div class ="col-25"><label for="productPicture">Product Picture</label></div><div class ="col-75">\
+                                       <input class="form-control border-end-0 border rounded-pill" type="text" name="productPicture" value="'+product.Picture+'" placeholder="Enter Picture" id="productPicture"> </div> </div>\
+                                       <div class="row"><button class="btn border-bottom-0 border ms-n5 item-submit item-update" type="button" id="UpdateProduct" value="UpdateProduct">Submit Update</button></div></div>');
+            $(".presentation").append(productUpdateForm);                     
+
+        }, 
+        error: function (xhr, status, error) {
+            // Handle the error and show an alert message
+            console.error('Error loading product:', error);
+            // xhr.responseJSON.error - XMLHttpRequest object that contains the original error sent from res.
+            if (xhr.responseJSON && xhr.responseJSON.error) {
+                alert(xhr.responseJSON.error);
+              } else {
+                alert('An unknown error occurred. Please try again later.');
+              }
+          }
+
+    })
+} 
+
+function updateProduct(product) {
+    $.ajax({
+        method: "POST",
+        url: "/admin/updateAProduct",
+        data: {Product:product},
+        success: function(res){
+            alert("Product: "+res.Product+" Successfully Updated");
+            listProducts();
+
+        }, 
+        error: function (xhr, status, error) {
+            // Handle the error and show an alert message
+            console.error('Error creating product:', error);
+            // xhr.responseJSON.error - XMLHttpRequest object that contains the original error sent from res.
+            if (xhr.responseJSON && xhr.responseJSON.error) {
+                alert(xhr.responseJSON.error);
+              } else {
+                alert('An unknown error occurred. Please try again later.');
+              }
+          }
+    })
+}
+
+//        CUSTOMER RUD FUNCTIONS
 
 function loadCustomers(){
     // $(".productList").empty();
@@ -352,7 +432,65 @@ function loadCustomerToRead(ID){
           }
 
     })
+} 
+
+function loadCustomerToUpdate(ID){
+    $.ajax({
+        method: "POST",
+        url: "/admin/readCustomer",
+        data: {CustomerID:ID},
+        success: function(res){
+            $(".customerTable").detach();
+            customer = res.Customer;
+            let customerUpdateForm = $('<div class ="container customerTable"><form class ="load-form">\
+                                       <div class="row"><div class ="col-25"><label for="customerName">Customer Name</label></div><div class ="col-75">\
+                                       <input class="form-control border-end-0 border rounded-pill" type="text" name="customerName" value="'+customer.Name+'" placeholder="Enter Name" id="customerName"> </div> </div>\
+                                       <div class="row"><div class ="col-25"><label for="customerPhoneNumber">Phone Number</label></div><div class ="col-75">\
+                                       <input class="form-control border-end-0 border rounded-pill" type="text" name="customerPhoneNumber" value="'+customer.phoneNumber+'" placeholder="Enter Phone Number" id="customerPhoneNumber"> </div> </div>\
+                                       <div class="row"><div class ="col-25"><label for="customerAddress">Customer Address</label></div><div class ="col-75">\
+                                       <input class="form-control border-end-0 border rounded-pill" type="text" name="customerAddress" value="'+customer.Address+'" placeholder="Enter Customer Address" id="customerAddress"> </div> </div>\
+                                       <div class="row"><button class="btn border-bottom-0 border ms-n5 item-submit item-update" type="button" id="UpdateCustomer" value="UpdateCustomer">Submit Update</button></div></div>');
+            $(".presentation").append(customerUpdateForm);                     
+
+        }, 
+        error: function (xhr, status, error) {
+            // Handle the error and show an alert message
+            console.error('Error loading product:', error);
+            // xhr.responseJSON.error - XMLHttpRequest object that contains the original error sent from res.
+            if (xhr.responseJSON && xhr.responseJSON.error) {
+                alert(xhr.responseJSON.error);
+              } else {
+                alert('An unknown error occurred. Please try again later.');
+              }
+          }
+
+    })
+} 
+
+function updateCustomer(customer) {
+    $.ajax({
+        method: "POST",
+        url: "/admin/updateACustomer",
+        data: {Customer:customer},
+        success: function(res){
+            alert("Customer: "+res.Customer+" Successfully Updated");
+            listCustomers();
+
+        }, 
+        error: function (xhr, status, error) {
+            // Handle the error and show an alert message
+            console.error('Error creating product:', error);
+            // xhr.responseJSON.error - XMLHttpRequest object that contains the original error sent from res.
+            if (xhr.responseJSON && xhr.responseJSON.error) {
+                alert(xhr.responseJSON.error);
+              } else {
+                alert('An unknown error occurred. Please try again later.');
+              }
+          }
+    })
 }
+
+//        ORDER RUD FUNCTIONS
 
 function loadOrders(){
     // $(".productList").empty();

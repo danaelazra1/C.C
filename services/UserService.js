@@ -26,9 +26,9 @@ const getAllUsers = async () => {
 };
 const updateUser = async (id, username , password) => { // for no change pass null values!
     const user = await getUserById(id);
-    if (!User)
+    if (!user)
         return null;
-    if(usernmae !== null){
+    if(username !== null){
         user.username = username;
     }
     if(password !== null){
