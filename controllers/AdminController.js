@@ -143,7 +143,7 @@ async function deleteAProduct(req,res){
 
     // Check if the ProductID is provided and is a valid ID
     if (!(isValidID(productId))) {
-        return res.status(400).send({ error: 'Invalid Product ID' });
+        return res.status(400).send({ error: 'ID Altered! Do Not Delete The ID Field!' });
     }
 
     try {
@@ -204,6 +204,58 @@ async function updateACustomer(req,res){
         res.status(500).send({ error: 'Internal Server Error' });
     }
 } 
+
+async function deleteACustomer(req,res){
+
+    const customerId = req.body.CustomerID;
+
+    // Check if the CustomerID is provided and is a valid ID
+    if (!(isValidID(customerId))) {
+        return res.status(400).send({ error: 'ID Altered! Do Not Delete The ID Field!' });
+    }
+
+    try {
+        const cart = await cartService.deleteCart(customerId);
+        // Check if a customer with the given CustomerID has a cart found
+        // if (!cart) {
+        //     return res.status(404).send({ error: 'Cart not found' });
+        // }
+
+    } catch (error) {
+         // Handle any errors that may occur during the database operation
+        console.error('Error fetching product:', error);
+        return res.status(500).send({ error: 'Internal Server Error' });
+    } 
+    try {
+        const user = await UserService.deleteUser(customerId);
+        //Check if a customer with the given CustomerID has a user found
+        if (!user) {
+            return res.status(404).send({ error: 'User not found' });
+        }
+
+    } catch (error) {
+         // Handle any errors that may occur during the database operation
+        console.error('Error fetching product:', error);
+        return res.status(500).send({ error: 'Internal Server Error' });
+    }  
+
+    try {
+        const customer = await CustomerService.deleteCustomer(customerId);
+        // Check if a customer with the given CustomerID was found
+        if (!customer) {
+            return res.status(404).send({ error: 'Customer not found' });
+        }
+
+        res.status(200).send({ Customer: customer });
+    } catch (error) {
+         // Handle any errors that may occur during the database operation
+        console.error('Error fetching product:', error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+    
+} 
+
+
 async function readOrder(req,res){
 
     const orderId = req.body.OrderID;
@@ -238,6 +290,7 @@ module.exports = {
     deleteAProduct,
     readCustomer,
     updateACustomer,
+    deleteACustomer,
     readOrder
 
 }

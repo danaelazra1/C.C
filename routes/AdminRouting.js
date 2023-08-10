@@ -13,6 +13,7 @@ router.route('/updateAProduct').post(adminController.updateAProduct);
 router.route('/deleteAProduct').post(adminController.deleteAProduct);
 router.route('/readCustomer').post(adminController.readCustomer);
 router.route('/updateACustomer').post(adminController.updateACustomer);
+router.route('/deleteACustomer').post(adminController.deleteACustomer);
 router.route('/readOrder').post(adminController.readOrder);
 
 module.exports = router;

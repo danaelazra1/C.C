@@ -35,8 +35,8 @@ const deleteCustomer = async (id) => {
     if (!customer)
         return null;
     // DELETE CUSTOMER CART && USER
-    await customer.remove();
-    return customer;
+   
+    return await Customer.findByIdAndRemove(id);
 };
 module.exports = {
     createCustomer,

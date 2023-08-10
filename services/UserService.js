@@ -41,9 +41,8 @@ const deleteUser = async (id) => {
     const user = await getUserById(id);
     if (!user)
         return null;
- // TODO :: DELETE CUSTOMER BY ID (SAME ID) & Cart
-    await user.remove();
-    return user;
+
+    return await User.findByIdAndRemove(id);
 };
 module.exports = {
     createUser,

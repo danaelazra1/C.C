@@ -34,12 +34,11 @@ const getAllCarts = async () => {
     return await Cart.find({});
 };
 const deleteCart = async (customerID) => {
-    const cart = await getCartById(customerID);
+    const cart = await getCartByCustomerId(customerID);
     if (!cart)
         return null;
 
-    await cart.remove();
-    return cart;
+        return await Cart.findByIdAndRemove(cart._id);
 };
 module.exports = {
     createCart,

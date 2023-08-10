@@ -44,7 +44,7 @@ jQuery(function(){
             loadCustomerToUpdate(ID);
             }
             else {
-             console.log("Delete Customer")
+            loadCustomerToDelete(ID);
             }
          }
          else {
@@ -55,7 +55,7 @@ jQuery(function(){
             //loadOrderToUpdate(ID);
            }
            else {
-            console.log("Delete Order")
+            //loadOrderToDelete(ID);
            }
         }
 
@@ -109,9 +109,9 @@ jQuery(function(){
         if(ItemType == "DeleteProduct"){
             deleteProduct(ID);
         } 
-        // else if(ItemType == "DeleteCustomer"){
-        //     deleteCustomer(ID);
-        // } 
+        else if(ItemType == "DeleteCustomer"){
+            deleteCustomer(ID);
+        } 
         // else {
         //     //deleteOrder(ID);
         // }
@@ -538,6 +538,67 @@ function updateCustomer(customer) {
         data: {Customer:customer},
         success: function(res){
             alert("Customer: "+res.Customer+" Successfully Updated");
+            listCustomers();
+
+        }, 
+        error: function (xhr, status, error) {
+            // Handle the error and show an alert message
+            console.error('Error creating product:', error);
+            // xhr.responseJSON.error - XMLHttpRequest object that contains the original error sent from res.
+            if (xhr.responseJSON && xhr.responseJSON.error) {
+                alert(xhr.responseJSON.error);
+              } else {
+                alert('An unknown error occurred. Please try again later.');
+              }
+          }
+    })
+}
+
+function loadCustomerToDelete(ID){
+    $.ajax({
+        method: "POST",
+        url: "/admin/readCustomer",
+        data: {CustomerID:ID},
+        success: function(res){
+            $(".customerTable").detach();
+            let customerTable = $('<table class="customerTable"></table>');
+            $(".presentation").append(customerTable);
+            let header = $('<tr><th>ID</th><th>Username</th><th>Name</th><th>Phone Number</th><th>Address</th><th>Orders</th></tr>') 
+            $(".customerTable").append(header);
+            customer = res.Customer; 
+            let item = $('<tr class="customer-item"></tr>');
+            let id = $('<td>'+customer._id+'</td>');
+            let username = $('<td>'+customer.Username+'</td>');
+            let name = $('<td>'+customer.Name+'</td>'); 
+            let phoneNumber = $('<td>'+customer.phoneNumber+'</td>');
+            let address = $('<td>'+customer.Address+'</td>');
+            let orders = $('<td>'+customer.Orders+'</td>');
+            let deleteButton = $('<td><button class="btn border-bottom-0 border ms-n5 item-submit item-delete" type="button" id="DeleteCustomer" value="DeleteCustomer">Submit Delete</button></td>')
+            item.append([id,username,name,phoneNumber,address,orders,deleteButton]);
+            $(".customerTable").append(item);
+
+        }, 
+        error: function (xhr, status, error) {
+            // Handle the error and show an alert message
+            console.error('Error loading product:', error);
+            // xhr.responseJSON.error - XMLHttpRequest object that contains the original error sent from res.
+            if (xhr.responseJSON && xhr.responseJSON.error) {
+                alert(xhr.responseJSON.error);
+              } else {
+                alert('An unknown error occurred. Please try again later.');
+              }
+          }
+
+    })
+}
+
+function deleteCustomer(ID) {
+    $.ajax({
+        method: "POST",
+        url: "/admin/deleteACustomer",
+        data: {CustomerID:ID},
+        success: function(res){
+            alert("Customer Successfully Deleted");
             listCustomers();
 
         }, 
