@@ -50,12 +50,12 @@ const updateProduct = async (id, productName, price, dateBaked,description ,pict
     return await Product.updateMany({_id:id}, {$set:{ProductName: productName,Price: price,DateBaked: dateBaked,Description: description,Picture: picture}});
 };
 const deleteProduct = async (id) => {
-    const Product = await getProductById(id);
-    if (!Product)
+    const product = await getProductById(id);
+    if (!product)
         return null;
     // TODO :: UPDATE ALL CARTS- BEFORE DELETION
-    await Product.remove();
-    return Product;
+    
+    return await Product.findByIdAndRemove(id);
 };
 
 module.exports = {

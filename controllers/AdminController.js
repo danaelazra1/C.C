@@ -136,6 +136,30 @@ async function updateAProduct(req,res){
     }
 } 
 
+async function deleteAProduct(req,res){
+    
+    const productId = req.body.ProductID;
+
+    // Check if the ProductID is provided and is a valid ID
+    if (!(isValidID(productId))) {
+        return res.status(400).send({ error: 'Invalid Product ID' });
+    }
+
+    try {
+        const product = await productService.deleteProduct(productId);
+        // Check if a product with the given ProductID was found
+        if (!product) {
+            return res.status(404).send({ error: 'Product not found' });
+        }
+        const productName = await productService.getProductById(productId).ProductName;
+        res.status(200).send({ Product: productName });
+    } catch (error) {
+         // Handle any errors that may occur during the database operation
+        console.error('Error fetching product:', error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+} 
+
 async function readCustomer(req,res){
 
     const customerId = req.body.CustomerID;
@@ -214,6 +238,7 @@ module.exports = {
     readProduct,
     createNewProduct,
     updateAProduct,
+    deleteAProduct,
     readCustomer,
     updateACustomer,
     readOrder

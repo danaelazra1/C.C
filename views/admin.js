@@ -36,7 +36,7 @@ jQuery(function(){
             loadProductToUpdate(ID);
            }
            else {
-            console.log("Delete Product")
+            loadProductToDelete(ID);
            }
         } 
         else if(searchCategory == "SearchCustomer") {
@@ -104,6 +104,20 @@ jQuery(function(){
         else {
             //updateOrder(ValArray);
         }
+    })
+
+    $(".presentation").on("click",".item-delete",function(){
+        ItemType = $(this).val();
+        const ID = $(".presentation").find('input[type="search"]').val();
+        if(ItemType == "DeleteProduct"){
+            deleteProduct(ID);
+        } 
+        // else if(ItemType == "DeleteCustomer"){
+        //     deleteCustomer(ID);
+        // } 
+        // else {
+        //     //deleteOrder(ID);
+        // }
     })
 
 }) 
@@ -306,6 +320,68 @@ function updateProduct(product) {
         data: {Product:product},
         success: function(res){
             alert("Product: "+res.Product+" Successfully Updated");
+            listProducts();
+
+        }, 
+        error: function (xhr, status, error) {
+            // Handle the error and show an alert message
+            console.error('Error creating product:', error);
+            // xhr.responseJSON.error - XMLHttpRequest object that contains the original error sent from res.
+            if (xhr.responseJSON && xhr.responseJSON.error) {
+                alert(xhr.responseJSON.error);
+              } else {
+                alert('An unknown error occurred. Please try again later.');
+              }
+          }
+    })
+} 
+
+function loadProductToDelete(ID){
+    $.ajax({
+        method: "POST",
+        url: "/admin/readProduct",
+        data: {ProductID:ID},
+        success: function(res){
+            $(".productTable").detach();
+            let productTable = $('<table name="productTable" class="productTable"></table>');
+            $(".presentation").append(productTable);
+            let header = $('<tr><th>ID</th><th>Name</th><th>Price</th><th>Number Of Orders</th><th>Date Baked</th><th>Description</th></tr>') 
+            $(".productTable").append(header);
+            product = res.Product; 
+            let item = $('<tr class="product-item"></tr>');
+            let id = $('<td>'+product._id+'</td>');
+            // let img = $('<img class="resize" src='+product.Picture+' class="card-img-top">') Need to add in item.append and Header to work
+            let name = $('<td>'+product.ProductName+'</td>');
+            let price = $('<td>'+product.Price+'</td>'); 
+            let numberOfOrders = $('<td>'+product.NumberOfOrders+'</td>');
+            let dateBaked = $('<td>'+product.DateBaked+'</td>');
+            let description = $('<td>'+product.Description+'</td>');
+            let deleteButton = $('<td><button class="btn border-bottom-0 border ms-n5 item-submit item-delete" type="button" id="DeleteProduct" value="DeleteProduct">Confirm Delete</button></td>')
+            item.append([id,name,price,numberOfOrders,dateBaked,description,deleteButton]);
+            $(".productTable").append(item);
+
+        }, 
+        error: function (xhr, status, error) {
+            // Handle the error and show an alert message
+            console.error('Error loading product:', error);
+            // xhr.responseJSON.error - XMLHttpRequest object that contains the original error sent from res.
+            if (xhr.responseJSON && xhr.responseJSON.error) {
+                alert(xhr.responseJSON.error);
+              } else {
+                alert('An unknown error occurred. Please try again later.');
+              }
+          }
+
+    }) 
+}
+
+function deleteProduct(ID) {
+    $.ajax({
+        method: "POST",
+        url: "/admin/deleteAProduct",
+        data: {ProductID:ID},
+        success: function(res){
+            alert("Product Successfully Deleted");
             listProducts();
 
         }, 
