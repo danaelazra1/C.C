@@ -45,6 +45,7 @@ function isValidString(input){
     return true;
 }
 
+// Responsible for Number Validation for each relevant function
 function isValidNumber(input){
     if (!input || isNaN(input) || input.trim() === '') { return false;}
     return true;
@@ -226,10 +227,6 @@ async function readOrder(req,res){
         res.status(500).send({ error: 'Internal Server Error' });
     }
 }
-
-// function getAdminIndex(req,res){
-    
-// }
 
 
 module.exports = {

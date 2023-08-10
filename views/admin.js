@@ -20,9 +20,6 @@ jQuery(function(){
     $(".presentation").on("click",".Search",function(){
         const searchCategory = $(this).val();
         const action = $(".presentation").find('input[type="radio"]:checked').val();
-        // const valArray = [];
-        // $(".presentation").find('input[type="radio"]').toArray().forEach(radio => valArray.push(radio.value));
-        // console.log(valArray);
         const ID = $(".presentation").find('input[type="search"]').val();
         
         if(searchCategory == "SearchProduct") {
@@ -125,9 +122,7 @@ jQuery(function(){
 //        PRODUCT CRUD FUNCTIONS
 
 function loadProducts(){
-    // $(".productList").empty();
-    // $(".customerList").empty();
-    // $(".orderList").empty(); 
+
     $(".presentation").empty();
     $.ajax({
         method: "POST", 
@@ -152,7 +147,6 @@ function loadProducts(){
             res.Products.forEach(product => { 
                 let item = $('<tr class="product-item"></tr>');
                 let id = $('<td>'+product._id+'</td>');
-                // let img = $('<img class="resize" src='+product.Picture+' class="card-img-top">') Need to add in item.append and Header to work
                 let name = $('<td>'+product.ProductName+'</td>');
                 let price = $('<td>'+product.Price+'</td>'); 
                 let numberOfOrders = $('<td>'+product.NumberOfOrders+'</td>');
@@ -183,7 +177,6 @@ function listProducts(){
             res.Products.forEach(product => { 
                 let item = $('<tr class="product-item"></tr>');
                 let id = $('<td>'+product._id+'</td>');
-                // let img = $('<img class="resize" src='+product.Picture+' class="card-img-top">') Need to add in item.append and Header to work
                 let name = $('<td>'+product.ProductName+'</td>');
                 let price = $('<td>'+product.Price+'</td>'); 
                 let numberOfOrders = $('<td>'+product.NumberOfOrders+'</td>');
@@ -213,7 +206,6 @@ function loadProductToRead(ID){
             product = res.Product; 
             let item = $('<tr class="product-item"></tr>');
             let id = $('<td>'+product._id+'</td>');
-            // let img = $('<img class="resize" src='+product.Picture+' class="card-img-top">') Need to add in item.append and Header to work
             let name = $('<td>'+product.ProductName+'</td>');
             let price = $('<td>'+product.Price+'</td>'); 
             let numberOfOrders = $('<td>'+product.NumberOfOrders+'</td>');
@@ -350,7 +342,6 @@ function loadProductToDelete(ID){
             product = res.Product; 
             let item = $('<tr class="product-item"></tr>');
             let id = $('<td>'+product._id+'</td>');
-            // let img = $('<img class="resize" src='+product.Picture+' class="card-img-top">') Need to add in item.append and Header to work
             let name = $('<td>'+product.ProductName+'</td>');
             let price = $('<td>'+product.Price+'</td>'); 
             let numberOfOrders = $('<td>'+product.NumberOfOrders+'</td>');
@@ -401,9 +392,6 @@ function deleteProduct(ID) {
 //        CUSTOMER RUD FUNCTIONS
 
 function loadCustomers(){
-    // $(".productList").empty();
-    // $(".customerList").empty();
-    // $(".orderList").empty(); 
     $(".presentation").empty();
     $.ajax({
         method: "POST", 
@@ -569,9 +557,6 @@ function updateCustomer(customer) {
 //        ORDER RUD FUNCTIONS
 
 function loadOrders(){
-    // $(".productList").empty();
-    // $(".customerList").empty();
-    // $(".orderList").empty(); 
     $(".presentation").empty();
     $.ajax({
         method: "POST", 
