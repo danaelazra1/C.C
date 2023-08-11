@@ -27,9 +27,9 @@ const getAllUsers = async () => {
 };
 const updateUser = async (id, username , password) => { // for no change pass null values!
     const user = await getUserById(id);
-    if (!User)
+    if (!user)
         return null;
-    if(usernmae !== null){
+    if(username !== null){
         user.username = username;
     }
     if(password !== null){
@@ -42,11 +42,8 @@ const deleteUser = async (id) => {
     const user = await getUserById(id);
     if (!user)
         return null;
- // TODO :: DELETE CUSTOMER BY ID (SAME ID) & Cart
-    customerService.deleteCustomer(id);
-    cartService.deleteCart(id);
-    await user.remove();
-    return user;
+
+    return await User.findByIdAndRemove(id);
 };
 module.exports = {
     createUser,

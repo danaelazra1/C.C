@@ -13,9 +13,6 @@ async function cAndcRender(req,res){
 function getIndex(req,res){
 cAndcRender(req,res);
 }
-function getMaps(req,res){
-   res.render("maps");
-}
 async function getCartProducts(req,res){
   if(req.session.UserID!= null){ //user is logged in
   let cart = await cartService.getCartByCustomerId(req.session.UserID);
@@ -117,7 +114,7 @@ const createUserAdmin = async (req, res) => {
         await cartService.createCart(Cust.id,[]);
         res.redirect('/');
           }else{
-            res.render('adminPage');
+            res.redirect('/admin');
           }
         }
     };
@@ -126,8 +123,9 @@ const UserAdminLogin = async (req, res) => {
         if (User == null) {
          res.render('login',{error:"Invalid username or password"});
         }else{
+          req.session.UserID = User.id;
           if(User.isAdmin){
-            res.render('adminPage');
+            res.redirect('/admin');
           }else{
         req.session.UserID = User.id;
         res.redirect('/');
@@ -157,5 +155,5 @@ const UserLogout = async (req,res)=>{
     GetRegister,
     createUserAdmin,
     UserAdminLogin,
-    UserLogout
+    UserLogout,
   };

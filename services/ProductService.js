@@ -21,7 +21,7 @@ const updateProductNumOfOrders = async (productID) => {
 const getProductById = async (id) => {
     return await Product.findById(id);
 };
-const createProduct = async (productName, price, dateBaked=Date.now, description , picture) => {
+const createProduct = async (productName, price, description , picture, dateBaked=Date.now()) => {
     const product = new Product({
         ProductName : productName,
         Price : price,
@@ -30,7 +30,7 @@ const createProduct = async (productName, price, dateBaked=Date.now, description
         Description : description,
         Picture : picture
     });
-    return await product.save();
+    return await Product.insertMany(product);
 };
 const updateProduct = async (id, productName, price, dateBaked,description ,picture) => {
     const product = await getProductById(id);
@@ -39,18 +39,18 @@ const updateProduct = async (id, productName, price, dateBaked,description ,pict
 
     product.ProductName = productName;
     product.Price = price;
-    product.Date = dateBaked;
+    product.DateBaked = dateBaked;
     product.Picture = picture;
     product.Description = description;
-    await product.save();
-    return product;
+    return await Product.updateMany({_id:id}, {$set:{ProductName: productName,Price: price,DateBaked: dateBaked,Description: description,Picture: picture}});
 };
 const deleteProduct = async (id) => {
     const product = await getProductById(id);
     if (!product)
         return null;
-    await product.remove();
-    return product;
+    // TODO :: UPDATE ALL CARTS- BEFORE DELETION
+    
+    return await Product.findByIdAndRemove(id);
 };
 
 module.exports = {
