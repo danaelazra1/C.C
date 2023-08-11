@@ -31,6 +31,9 @@ async function getCart(req,res){
     res.redirect('/login')
   }
 }
+function getMaps(req,res){
+  res.render('maps');
+  }
 function GetLogin(req,res){
   res.render('login',{error:null});
   }
