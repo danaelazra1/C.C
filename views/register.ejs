@@ -7,7 +7,7 @@
 
     <style>
         body {
-           background-image:url("images/logo.jpg");
+           background-image:url("images/c&c3.jpg");
            background-size:auto;
            background-origin: padding-box;
            background-repeat:no-repeat;
@@ -145,6 +145,9 @@
                 <input type="text" name="address" id="address"class="form-control" required>
                 <label for="address">address</label>
             </div>
+             <% if (error) { %>
+                <p style="color:red;" ><%= error %></p>
+                <% } %>
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
     </div>      

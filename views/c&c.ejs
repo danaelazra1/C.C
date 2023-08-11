@@ -11,81 +11,45 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
   <body>
-   <p> WELCOME TO COOKIES & COFFEE </p>
+    <p class="header-title" data-text="WELCOME TO COOKIES & COFFEE"></p>
    <div class="card-weather">
     <img src="" class="weather-icon">
     <h1 class="temp"></h1>
     <h2 class="city"></h2>
    </div>
-   <div class="container">
-        <header class="row justify-content-md-center ">
-            <div class="col-6 p-3">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Find your favorite cookie next to your coffee..." aria-label="Recipient's username" aria-describedby="basic-addon2">
-                    <span class="input-group-text" id="basic-addon2"><i class="bi bi-cup-hot" style="color: #5a3a0d;"></i></span>
-                  </div>
-            </div>
-
-        </header>
         <main class="row g-12">
             <div class="col-lg-3">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                  <% if(Cust != null){ %>
-                    <div>Hello <%= Cust.Name %>
-                    <button class="btn btn-primary"><a href="/logout" >Logout</a> </button>
-                    </div>
-                     <% }else{ %>
-                      <a href="/login">Login</a>
-                       <% }%>
+                  <div id="details">
+                    <form action="/login">
+                    <button type="submit" id="login" class="btn btn-primary">Log-In</button> 
+                    </form>
+                  </div>
                 </li>
-                <!-- <li class="list-group-item">sort by</a></li> -->
-               <!--  <li class="list-group-item">
-                    <div class="list-group">
-                        <a href="/amsterdam" class="list-group-item list-group-item-action">Amsterdam cookies</a>
-                        <a href="/m&m" class="list-group-item list-group-item-action">M & M cookies</a>
-                        <a href="/chocolate" class="list-group-item list-group-item-action">Chocolate chips cookies</a>
-    
-                    </div> -->
-                </li>
-                <li class="list-group-item">
+                 <li class="list-group-item">
                   <a href="/maps">Maps</a>
-              </li>
+                 </li>
               <li class="list-group-item">
                 <a href="/cart">Shopping cart <i class="bi bi-cart"></i></a>
-            </li>
-            <li class="list-group-item">
-              <input type="checkbox" value="Price" name="price">
-          </li>
+              </li>
+               <li class="list-group-item">
+                <form class="sortPref">
+                  <div>
+                  <input type="radio" id="All" value="All" name="selected" checked><label for="All">All Cookies</label><br>
+                  <input type="radio" id="BestSeller" value="BestSeller" name="selected"><label for="BestSeller">Top 5 Best seller</label><br>
+                  <input type="radio" id="LowToHigh" value="LowToHigh" name="selected"><label for="LowToHigh">Price:Low to high</label><br>
+                  <input type="radio" id="HighToLow" value="HighToLow" name="selected"><label for="HighToLow">Price:High to low</label><br>
+                 </div>
+                </form>
+               </li>
+            </ul>
             </ul>
            </div>
            <div class="col">
-            <!-- <div class="row">
-                <button class="btn btn-secondary col-2 m-2">All</button>
-                <button class="btn btn-light col-2 m-2">Favourites</a></button>
-              
-            </div> -->
-                 <div class="row">
-                    			
-            <% Products.forEach(function(product){ %>
-	            <div class="card col-sm-6 col-md-4 col-lg-4">
-                        <img src=<%= product.Picture %> class="card-img-top">
-                     <div class="card-body">
-                          <h5 class="card-title"><%= product.ProductName%> : <%= product.Price%>₪ </h5>
-                          <p class="card-text"> <%= product.Description %></p>
-                                               <br/>  
-                         <form> 
-                          <!-- action="/newProduct" method="post" -->
-                            <!-- <input type="hidden" name='productID'  > -->
-                          <button value=<%= product._id%> type="submit" class="btn btn-primary">Add to cart  <i class="bi bi-cart"></i></button>
-                        </form>
-                      </div>
-	</div>
-                                      <%  })%>
-
+                 <div class="row cards">
            </div>
           </main>
-     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
   </body>
 </html>

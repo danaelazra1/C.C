@@ -1,58 +1,44 @@
 const CustomerService = require('../services/CustomerService');
 const UserService = require('../services/UserService');
-const productService = require('../services/ProductService')
-const cartService = require('../services/CartService')
+const cartService = require('../services/CartService');
+const orderService = require('../services/OrderService');
+ 
 
-var Cust = null;
-var products;
+
 
 async function cAndcRender(req,res){
-  products = await productService.getAllProducts();
-  res.render("c&c",{Cust:Cust , Products : products})
+  res.render("c&c")
 }
 // ----------------------------- Rendering pages ------------------------------------
 function getIndex(req,res){
-  // if(req.session.username != null){
-  //   Cust = custService.getCustomerById(req.session.username);
-  //   var cart = cartService.getCartByCustomerId(Cust.id);
-  // }
 cAndcRender(req,res);
 }
-function getAmsterdam(req,res){
-  res.render("amsterdam")
-  }
-  function getMaps(req,res){
-    res.render("maps");
-  }
-function getAllCookies(req,res){
-res.render("allcookies")
+function getMaps(req,res){
+   res.render("maps");
 }
-function getMAndM(req,res){
-res.render("m&m");
-}
-function getChoclateChipsCookies(req,res){
-  res.render("chocolate");
-}
-function getSpecialCookies(req,res){
-    res.render("special");
-}
-
-
 async function getCartProducts(req,res){
-  let cart = await cartService.getCartByCustomerId(Cust._id);
+  if(req.session.UserID!= null){ //user is logged in
+  let cart = await cartService.getCartByCustomerId(req.session.UserID);
       res.status(200);
       res.send({products : cart.Products, price : cart.Price});
+  }else{
+    res.status(401);
+  res.send();
+}
+
 }
 async function getCart(req,res){
-  // let cart = await cartService.getCartByCustomerId(Cust._id);
-      // res.render("cart",{Cart : cart , Products : cart.Products});
+  if(req.session.UserID!= null){ //user is logged in
       res.render('cart');
+  }else{
+    res.redirect('/login')
+  }
 }
 function GetLogin(req,res){
-  res.render('login',{});
+  res.render('login',{error:null});
   }
 function GetRegister(req,res){
-    res.render('register',{});
+    res.render('register',{error:null});
   }
 
 
@@ -61,7 +47,10 @@ async function addProductToCart(req,res){
 if(req.session.UserID!= null){ //user is logged in
  await cartService.addToCart(req.session.UserID,req.body.productID)
  res.status(201);
- res.send("added to cart!")
+ res.send();
+}else{
+  res.status(401);
+  res.send();
 }
 }
 
@@ -69,23 +58,32 @@ async function removeProductFromCart(req,res){
   if(req.session.UserID!= null){ //user is logged in
    let cart = await cartService.removeFromCart(req.session.UserID,req.body.ProductID);
   res.status(202);
- res.send({products : cart.Products,price : cart.Price});
+ res.send();
   }
+}
+async function clearAllCartItems(req,res){
+  await cartService.clearAllitems(req.session.UserID);
+  res.status(200);
+  res.send();
+}
+
+//TODO:: nearest sniff?
+async function purchaseCart(req,res){
+  let defaultSniff = "Eli Vizel 2, Rishon le zion"
+  //Get nearst sniff using maps
+  await orderService.createOrder(req.body.cartProducts,defaultSniff,req.session.UserID);
+  await cartService.clearAllitems(req.session.UserID);
+  res.status(200);
+  res.send();
 }
 const getAllCustomers = async (req, res) => {
     const Customers = await CustomerService.getAllCustomers();
     res.json(Customers);
 };
-
 const getCustomer = async (req, res) => {
-    const Customer = await CustomerService.getCustomerById(req.params.id); // req.params.id -- get method - no security needed
-    if (!Customer) {
-        return res.status(404).json({ errors: ['Customer not found'] });
-    }
-
-    res.json(Customer);
+    const Customer = await CustomerService.getCustomerById(req.session.UserID);
+    res.send({Cust:Customer});
 };
-
 const updateCustomer = async (req, res) => {
     if (!req.params.id) {
       res.status(400).json({
@@ -100,7 +98,6 @@ const updateCustomer = async (req, res) => {
   
     res.json(Customer);
   };
-
 const deleteCustomer = async (req, res) => {
     const Customer = await CustomerService.deleteCustomer(req.params.id);
     if (!Customer) {
@@ -109,11 +106,10 @@ const deleteCustomer = async (req, res) => {
   
     res.send();
   };
-
 const createUserAdmin = async (req, res) => {
-        const newUser = await UserService.createUser(req.body.username,req.body.password); // BUG
+        const newUser = await UserService.createUser(req.body.username,req.body.password);
         if(newUser == null){
-          res.redirect('register');
+          res.render('register',{error: "Cannot create user, username is taken"});
         }else{
           if(!newUser.isAdmin){
          Cust = await CustomerService.createCustomer(newUser.id,req.body.username,req.body.name,req.body.phoneNumber,req.body.address)
@@ -125,31 +121,25 @@ const createUserAdmin = async (req, res) => {
           }
         }
     };
-    
 const UserAdminLogin = async (req, res) => {
         const User = await UserService.getUserByUsernameAndPassword(req.body.username,req.body.password);
         if (User == null) {
-         res.redirect('/login');
+         res.render('login',{error:"Invalid username or password"});
         }else{
           if(User.isAdmin){
             res.render('adminPage');
           }else{
         req.session.UserID = User.id;
-        Cust = await CustomerService.getCustomerById(User.id);
         res.redirect('/');
           }
         }
       };
-    
 const UserLogout = async (req,res)=>{
         req.session.destroy(()=>{
           Cust=null;
-            res.redirect('/login')
+            res.redirect('/')
         })
     }
-
-
-
   module.exports = {
     getAllCustomers,
     getCustomer,
@@ -157,13 +147,10 @@ const UserLogout = async (req,res)=>{
     updateCustomer,
     deleteCustomer,
     getIndex,
-    getAllCookies,
-    getAmsterdam,
-    getMAndM,
-    getChoclateChipsCookies,
-    getSpecialCookies,
+    clearAllCartItems,
     addProductToCart,
     removeProductFromCart,
+    purchaseCart,
     getCart,
     getCartProducts,
     GetLogin,

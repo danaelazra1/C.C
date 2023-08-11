@@ -54,7 +54,7 @@
         }
         
         
-        .cart-item h5{ /* עיצוב הטקסט בתוך התיבה */    
+        .cart-item h4{ /* עיצוב הטקסט בתוך התיבה */    
             display: flex;
             justify-content: space-between;
             margin-bottom: 10px;
@@ -86,35 +86,30 @@
     </style>
 
     <script>
+        let cartProducts;
         $(document).ready(function(){
             loadProducts();
-            $('.quantityPlus').on('click',function(event){
-            // event.preventDefault();
-            console.log("Clicked proccessed")
+            $(".clear").on('click',function(){
                 $.ajax({
-                url : "/addProduct",
-                method: "POST",
-                data : {productID: $(this).val()},
-                success : function(res){
-                alert("Product added to cart")
+                url:"/clearCart",
+                method:"post",
+                success: function(){
+                loadProducts();
                 }
-                })
-        })
-            $('.quantityMinus').on('click',function(event){
-                // event.preventDefault();
-                console.log("Clicked proccessed")
-                    $.ajax({
-                    url : "/removeProduct",
-                    method : "POST",
-                    data : {ProductID : $(this).val()},
-                    success : function(res){
-                    alert("Product removed from cart")
-                    // $('.cart-item').each(function(index){
-
-                    // })
-                    }
-                    })
             })
+        }
+            )
+            $(".purchase").on('click',function(){
+                $.ajax({
+                url:"/purchaseCart",
+                method:"post",
+                data:{cartProducts: cartProducts},
+                success: function(){
+                loadProducts();
+                }
+            })
+        }
+            )
     
     })
         function loadProducts(){
@@ -123,18 +118,67 @@
                 method: "POST",
                 url: "/cart",
                 success : function(res){
-                    res.products.forEach(product => {
-                      let item = $('<div class="cart-item"></div>');
-                      let img = $('<img src='+product.Picture+' class="card-img-top">')
-                      let name = $('<h5 class="card-title">'+product.ProductName+'</h5>')
-                       let price = $('<p class="card-text">'+product.Price+'</p>')
-                       let plus = $('<button  value="'+product.id+'" class="btn btn-primary quantityPlus"> + </button>')
-                        let minus = $('<button  value="'+product.id+'" class="btn btn-primary quantityMinus"> - </button>')
-                       item.append([img,name,price,plus,minus]);
+                    cartProducts = res.products;
+                    $.ajax({
+                        method: "Post",
+                        url:"/GetProducts",
+                        success:function(res){
+                            res.products.forEach(element => {
+                                //TODO :: For each product name in DB
+                            });
+                        }
+                    })
+                    let CandPArr = cartProducts.filter(prod=> prod.ProductName == "Chocolate with Pretzels");  
+                    let CandCArr = cartProducts.filter(prod=> prod.ProductName == "Chocolate Chips");  
+                    let mandMArr = cartProducts.filter(prod=> prod.ProductName == "m&m");
+                    let amsterArr = cartProducts.filter(prod=> prod.ProductName == "Amsterdam");
+                    let coloredArr = cartProducts.filter(prod=> prod.ProductName == "Colored candies");
+                    let BirthdayArr = cartProducts.filter(prod=> prod.ProductName == "Birthday cookies box");
+                    let tasteOfHeavenArr = cartProducts.filter(prod=> prod.ProductName == "A little taste of heaven"); 
+                    let homeMadeArr = cartProducts.filter(prod=> prod.ProductName == "Homemade cookies box");
+                    let cookies = {CandCArr,CandPArr,mandMArr,amsterArr,coloredArr,BirthdayArr,tasteOfHeavenArr,homeMadeArr};
+                $.each(cookies,(i,product)=>{
+                    if(product.length>0){
+                    let item = $('<div class="cart-item"></div>');
+                      let img = $('<img src='+product[0].Picture+' class="card-img-top">')
+                      let name = $('<h4 class="card-title">'+product[0].ProductName+'</h4>')
+                       let price = $('<p class="card-text">Price : '+product[0].Price+'</p>')
+                       let quantity = $('<h5 class="card-text">Quantity :'+product.length+'</h5>')
+                       let plus = $('<button  value="'+product[0]._id+'" class="btn btn-primary quantityPlus"> + </button>')
+                        let minus = $('<button  value="'+product[0]._id+'" class="btn btn-primary quantityMinus"> - </button>')
+                       item.append([img,name,price,quantity,plus,minus]);
                     $('.cart').append(item);
-                     });
-                     let cartPrice = $('<div id="cart-total" class="cart-total">'+res.price+' </div>')
+                    }
+                })              
+                     let cartPrice = $('<br><div id="cart-total" class="cart-total">Total : '+res.price+' </div>')
                      $('.cart').append(cartPrice);
+                     $('.quantityPlus').on('click',function(event){
+            console.log("Clicked proccessed")
+                $.ajax({
+                url : "/addProduct",
+                method: "POST",
+                data : {productID: $(this).val()},
+                success : function(res){
+                alert("Product added to cart")
+                loadProducts();
+                }
+                })
+        })
+            $('.quantityMinus').on('click',function(event){
+                console.log("Clicked proccessed")
+                    $.ajax({
+                    url : "/removeProduct",
+                    method : "POST",
+                    data : {ProductID : $(this).val()},
+                    success : function(res){
+                    alert("Product removed from cart")
+                    loadProducts();
+                    }
+                    })
+            })
+                },
+                error: function(){
+                    alert("Please log in to purchase")
                 }
             })
         }
@@ -149,9 +193,8 @@
         <p>Shopping Cart</p>
             <div class="cart">
             </div>
-                <form action="/purchaseCart" method="post">
-                    <button type="submit" class="btn btn-primary">Purchase</button>
-                </form>
+                    <button  class="btn btn-primary purchase">Purchase</button>
+                    <button  class="btn btn-primary clear">clear cart</button>
             </div>
     </div>
 </body>

@@ -12,12 +12,12 @@ const createCustomer = async (id, username, name, phoneNumber, address) => {
     return await customer.save();
 };
 const getCustomerById = async (id) => {
-    return await Customer.findById(id).lean();
+    return await Customer.findById(id);
 };
 const getAllCustomers = async () => {
     return await Customer.find({});
 };
-const updateCustomer = async (id, name, phoneNumber, address) => { // update details about customer
+const updateCustomer = async (id, name, phoneNumber, address) => {
     const customer = await getCustomerById(id);
     if (!customer)
         return null;
@@ -26,7 +26,7 @@ const updateCustomer = async (id, name, phoneNumber, address) => { // update det
     customer.phoneNumber = phoneNumber;
     customer.Address = address;
     await customer.save();
-    return Customer;
+    return customer;
 //*after order is created maybe need to update customer orders */
 };
  //------------------------------ ONLY FOR ADMINS!!!!----------------------------

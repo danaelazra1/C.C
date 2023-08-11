@@ -12,22 +12,17 @@ const getProductByPriceMax = async (price) => {
 const getAllProducts = async () => {
     return await Product.find({}).lean();
 };
-
-const updateNumberOfOrders = async (id)=>{ // TODO ::FOR EVERY PURCHASE!!!! -- ORDERS.PRODUCTS foreach updateNumberOfOrders
-    const Product = await getProductById(id);
-    if (!Product)
-        return null;
-    let oredersCount = Product.NumberOfOrders;
-    Product.NumberOfOrders = oredersCount+1;
-    await Product.save();
-    return Product;
-}
+const updateProductNumOfOrders = async (productID) => {
+     let product = await getProductById(productID);
+     product.$inc('NumberOfOrders',1);
+     await product.save();
+};
 // ------------------------ ONLY FOR ADMINS!!--------------------------------
 const getProductById = async (id) => {
-    return await Product.findById(id).lean();
+    return await Product.findById(id);
 };
 const createProduct = async (productName, price, dateBaked=Date.now, description , picture) => {
-    const Product = new Product({
+    const product = new Product({
         ProductName : productName,
         Price : price,
         NumberOfOrders : 0,
@@ -35,7 +30,7 @@ const createProduct = async (productName, price, dateBaked=Date.now, description
         Description : description,
         Picture : picture
     });
-    return await Product.save();
+    return await product.save();
 };
 const updateProduct = async (id, productName, price, dateBaked,description ,picture) => {
     const product = await getProductById(id);
@@ -47,16 +42,15 @@ const updateProduct = async (id, productName, price, dateBaked,description ,pict
     product.Date = dateBaked;
     product.Picture = picture;
     product.Description = description;
-    await Product.save();
-    return Product;
+    await product.save();
+    return product;
 };
 const deleteProduct = async (id) => {
-    const Product = await getProductById(id);
-    if (!Product)
+    const product = await getProductById(id);
+    if (!product)
         return null;
-    // TODO :: UPDATE ALL CARTS- BEFORE DELETION
-    await Product.remove();
-    return Product;
+    await product.remove();
+    return product;
 };
 
 module.exports = {
@@ -66,7 +60,7 @@ module.exports = {
     getProductByName,
     getProductByPriceMax,
     getAllProducts,
-    updateNumberOfOrders,
+    updateProductNumOfOrders,
     updateProduct,
     deleteProduct
 }

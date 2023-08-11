@@ -1,110 +1,156 @@
 body{
 
-    background-color: #f8d9de;
+  background-color: #fddce3df;
+ 
+  background-image:url("images/c&c3.jpg");
+  background-origin:padding-box;
+   background-repeat:no-repeat;
+   background-position:top;
+   background-size: 100%;
    
-    background-image:url("images/c&c.h1.jpg");
-    background-size: auto;
-    background-origin:content-box;
-     background-repeat: no-repeat;
-     background-position: center;
-     margin: auto;
-   
-    
-    }
-    p{
-        padding-bottom: 15px;
-        padding-top: 15px;
-        text-align: center;
-        font-weight:bolder;
-        font-size: xx-large;
-        color:rgb(255, 255, 255);
-        font-family:serif;
-        size: 20%;
-        
-      }
-     
-    .form-control{
-    border-color: #553706c3;
-    border-radius: 4px;
-    border-width: 3px;
-    
-    }
-    
-    .card{
-    background-color:rgba(255, 222, 173, 0.24);
-     border-width:2px;
-     border-radius: 2px;
-     cursor:pointer;
-
-    }
-    .card img{
-    border-radius:0px;
-    }
-    .btn-btn-primary{
-        color: antiquewhite;
-     }
-
-     .list-group {
-        border: 1px solid #000;
-
-        background-color:rgba(255, 222, 173, 0.24);
-       
-       
-    }
-     .list-group-item {
-        border: 1px solid #000;
-        background-color:rgba(255, 222, 173, 0.24);
-       
-    }
-    /* make sure everything is ok for btn changes */
-    .list-group-item a {
-        text-decoration: none;
-        color: #000000;
-        font-size: large;
-        font-weight:initial;
-        font-family:serif;
-        background-color:rgba(255, 222, 173, 0.24);
-        
-    }
-    
-    .list-group-item a:hover {
-        color: #ff65d6eb;
-        background-color:rgba(255, 222, 173, 0.24);
-    }
- .card-title{
+ 
   
-    color:saddlebrown;
-    font-weight: bolder;
-
-    }
-    .card-img-top{
-
-        width: auto;
-        height: 300px;
-    }
-  .card-text{
-    color: rgb(75, 37, 9);
-    font-size: 20px;
   }
-  .card-weather{
-    width: 5%;
-    background: linear-gradient(135deg, #00feba, #5b548a);
-    color: #fff;
-    border-radius: 10px;
-    padding: 10px 5px;
+  
+  .header-title {
+    background-color: rgba(96, 45, 9, 0.626);
+    color: rgb(255, 255, 255);
+    font-weight:lighter;
+    font-size: 250%;
+    line-height: 150%; 
     text-align: center;
-    float: left;
-  }
-  .weather-icon{
-    width: 50px;
-    margin-top: 10px;
-  }
+    font-family:'Monotype Corsiva', cursive;
+    margin: 2%;
+    padding: 2%;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+}
 
-  .card-weather h1{
-    font-size:20px ;
-    font-weight: 200;
+.header-title::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    color: transparent;
+    animation: showLetters 5s linear forwards;
+}
+
+@keyframes showLetters {
+    0% {
+        width: 0;
+        color: transparent;
+    }
+    100% {
+        width: 100%;
+        color: rgb(255, 255, 255);
+    }
+}
+ 
+
+  .card{
+    background-color: rgba(255, 222, 173, 0);
+    border: none;
+    align-items: center;
+    text-align: center;
+     width:20%;
+     height:auto;
+    
+    
+
+   
   }
-  .card-weather h2{
-    font-size:15px ;
-    font-weight: 100;
+  .card img {
+    width: 90%;
+    height: 70%;
+    margin-bottom: 10px;
+
+}
+
+   .list-group {
+      border: 1px solid #000;
+      background-color:rgba(255, 222, 173, 0.24);
+     
   }
+   .list-group-item {
+      border: 1px solid #000;
+      background-color:rgba(255, 222, 173, 0.24);
+    
+     
+  }
+  /* make sure everything is ok for btn changes */
+  .list-group-item a {
+      text-decoration: none;
+      color: #000000;
+      font-size: large;
+      font-weight:initial;
+      font-family:serif;
+      background-color:rgba(255, 222, 173, 0.24);
+      
+  }
+  
+  .list-group-item a:hover {
+      color: rgb(74, 35, 7);
+      background-color:rgba(255, 222, 173, 0.24);
+  }
+.card-title{
+  background-color: rgba(74, 35, 7, 0.836);
+  border-radius: 2px;
+  color: rgb(255, 255, 255);
+  font-weight: lighter;
+  font-size: 100%;
+  text-align: center;
+  font-family: sans-serif;
+  margin-top: -15%;
+
+
+  }
+  
+.card-text{
+  color: rgb(0, 0, 0);
+  font-size: 100%;
+  margin-top: 10%;
+  font-weight:bold;
+
+
+}
+.btn.btn-primary{
+  color: rgb(250, 240, 240);
+  background-color: rgba(74, 35, 7, 0.829);
+  border-color: rgba(74, 35, 7, 0.67);
+}
+.card .btn.btn-primary {
+  margin-top: -15%;
+  margin-bottom: 15%;
+  color: rgb(250, 240, 240);
+  background-color: rgba(74, 35, 7, 0.829);
+  border-color: rgba(74, 35, 7, 0.67);
+ 
+  
+}
+
+.card-weather{
+  width: 5%;
+  background: linear-gradient(135deg, #00feba, #5b548a);
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 5px;
+  text-align: center;
+  float: left;
+}
+.weather-icon{
+  width: 50px;
+  margin-top: 10px;
+}
+
+.card-weather h1{
+  font-size:20px ;
+  font-weight: 200;
+}
+.card-weather h2{
+  font-size:15px ;
+  font-weight: 100;
+}

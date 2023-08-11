@@ -1,5 +1,6 @@
 const User = require('../models/UserModel');
-
+const customerService = require("./CustomerService")
+const cartService = require("./CartService")
 const createUser = async (username, password) => { // User Creation
     const user = new User({
         Username : username,
@@ -8,8 +9,8 @@ const createUser = async (username, password) => { // User Creation
     if(username === "admin" && password === "admin"){
         user.isAdmin = true;
     }
-    const existsUser = await User.find({Username : username})
-    if(existsUser){ // if user is undefined/null/false etc
+    const existsUser = await User.exists({Username : username})
+    if(!existsUser){ // if user is undefined/null/false etc
         return await user.save();
     }
     return null;
@@ -42,6 +43,8 @@ const deleteUser = async (id) => {
     if (!user)
         return null;
  // TODO :: DELETE CUSTOMER BY ID (SAME ID) & Cart
+    customerService.deleteCustomer(id);
+    cartService.deleteCart(id);
     await user.remove();
     return user;
 };

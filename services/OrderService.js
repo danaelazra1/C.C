@@ -1,15 +1,23 @@
 const Order = require('../models/OrderModel').OrderModel;
+const productService = require('./ProductService');
+const customerService = require('./CustomerService')
 
-const createOrder = async (products, sniff) => {
+const createOrder = async (products, sniff,customerID) => {
     const order = new Order({
         Products : products,
-        Date : Date.now,
-        Sniff : sniff
+        Date : Date.now(),
+        Sniff : sniff,
+        Price : 0
     });
     for(let i=0;i<products.length;i++){
-        order.Price += products[0].price
+        productService.updateProductNumOfOrders(products[i]._id);
+        order.Price += parseInt(products[i].Price)
     }
     order.Quantity = products.length;
+    //Create order at customer
+    let customer =await  customerService.getCustomerById(customerID);
+    customer.Orders.push(order);
+    await customer.save();
     return await order.save();
 };
 

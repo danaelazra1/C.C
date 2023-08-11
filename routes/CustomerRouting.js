@@ -1,15 +1,19 @@
 const express = require('express');
 var router = express.Router();
-const customerController = require('../controllers/CustomerController')
+const customerController = require('../controllers/CustomerController');
+const productController = require('../controllers/ProductController');
 
 router.route('/')
 .get(customerController.getIndex)
+
+router.route('/GetProducts')
+.post(productController.getAllProducts);
 
 router.route('/addProduct')
 .post(customerController.addProductToCart)
 
 router.route('/removeProduct')
-.post(customerController.removeProductFromCart); //TODO :: Add functionality to cart products
+.post(customerController.removeProductFromCart);
 
 router.route('/login')
 .get(customerController.GetLogin)
@@ -22,22 +26,6 @@ router.route('/register')
 router.route('/logout')
 .get(customerController.UserLogout)
 
-
-router.route('/allcookies')
-.get(customerController.getAllCookies)
-
-router.route('/amsterdam')
-.get(customerController.getAmsterdam)
-
-router.route('/m&m')
-.get(customerController.getMAndM)
-
-router.route('/chocolate')
-.get(customerController.getChoclateChipsCookies)
-
-router.route('/special')
-.get(customerController.getSpecialCookies)
-
 router.route('/cart')
 .get(customerController.getCart)
 .post(customerController.getCartProducts)
@@ -45,9 +33,13 @@ router.route('/cart')
 router.route('/maps')
 .get(customerController.getMaps);
 
+router.route('/isLogged')
+.post(customerController.getCustomer);
 
+router.route('/purchaseCart')
+.post(customerController.purchaseCart);
 
-// router.route('/purchaseCart')
-// .post(customerController.purchaseCart); //TODO :: Add functionality to purchase cart
+router.route('/clearCart')
+.post(customerController.clearAllCartItems)
 
 module.exports = router;

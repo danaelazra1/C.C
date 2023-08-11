@@ -24,10 +24,32 @@ const addToCart = async (customerID, productID) => {
     await cart.save();
     return cart;
 };
+const clearAllitems = async (customerID) => {
+return await Cart.updateOne({CustomerID : customerID},{Products :[],Price: 0})
 
+}
 
 const removeFromCart = async (customerID, productID) => {
-    return await Cart.updateOne({customerID : customerID},{$pull : {Products : productID}})
+    let cart = await getCartByCustomerId(customerID);
+    if (!cart)
+        return null;
+        var product = await productService.getProductById(productID)
+        cart.Price-=product.Price;
+        isDeleted = false;
+        for (let i = 0; i < cart.Products.length; i++) {
+            if(!isDeleted){
+                if(cart.Products[i]._id==productID){
+                    cart.Products.splice(i,1)
+                    isDeleted=true;
+                }
+            }
+            
+        }
+        
+    await cart.save();
+    return cart;
+    
+
 };
 //---------------------------- ONLY FOR ADMINS!!!!---------------------------------
 const getAllCarts = async () => {
@@ -45,6 +67,7 @@ module.exports = {
     createCart,
     getCartByCustomerId,
     getAllCarts,
+    clearAllitems,
     addToCart,
     removeFromCart,
     deleteCart
