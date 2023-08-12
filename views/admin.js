@@ -17,7 +17,6 @@ jQuery(function(){
 
     }) 
     
-    
     $(".presentation").on("click",".Search",function(){
         const searchCategory = $(this).val();
         const action = $(".presentation").find('input[type="radio"]:checked').val();
@@ -53,12 +52,6 @@ jQuery(function(){
             if(action == "Read" ){
             loadOrderToRead(ID);
            }
-           else if(action == "Update") {
-            //loadOrderToUpdate(ID);
-           }
-           else {
-            //loadOrderToDelete(ID);
-           }
         }
 
     })
@@ -76,6 +69,67 @@ jQuery(function(){
         else {
             listOrders();
         }
+    }) 
+
+    $(".presentation").on('click','.graphDisplay',()=>{
+        console.log("clicked");
+        $("#my_dataviz").empty();
+        //ADD HERE GRAPH D3  
+        var margin = {top: 10, right: 30, bottom: 30, left: 40},
+        width = 460 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
+
+        // append the svg object to the body of the page
+        var svg = d3.select("#my_dataviz")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform",
+        "translate(" + margin.left + "," + margin.top + ")");
+
+        // get the data
+        // d3.json(products,(data){
+
+        // })
+        d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/1_OneNum.csv", function(data) {
+
+            // X axis: scale and draw:
+            var x = d3.scaleLinear()
+            .domain([0, 1000])     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
+            .range([0, width]);
+            svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
+
+            // set the parameters for the histogram
+            var histogram = d3.histogram()
+            .value(function(d) { return d.price; })   // I need to give the vector of value
+            .domain(x.domain())  // then the domain of the graphic
+            .thresholds(x.ticks(70)); // then the numbers of bins
+
+            // And apply this function to data to get the bins
+            var bins = histogram(data);
+
+            // Y axis: scale and draw:
+            var y = d3.scaleLinear()
+            .range([height, 0]);
+            y.domain([0, d3.max(bins, function(d) { return d.length; })]);   // d3.hist has to be called before the Y axis obviously
+            svg.append("g")
+            .call(d3.axisLeft(y));
+
+            // append the bar rectangles to the svg element
+            svg.selectAll("rect")
+            .data(bins)
+            .enter()
+            .append("rect")
+            .attr("x", 1)
+            .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
+            .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
+            .attr("height", function(d) { return height - y(d.length); })
+            .style("fill", "#69b3a2")
+        });
+
     }) 
 
     $(".presentation").on("click","#CreateProductRadio",function(){
@@ -97,12 +151,10 @@ jQuery(function(){
         if(ItemType == "UpdateProduct"){
             updateProduct(ValArray);
         } 
-        else if(ItemType == "UpdateCustomer"){
+        if(ItemType == "UpdateCustomer"){
             updateCustomer(ValArray);
         } 
-        else {
-            //updateOrder(ValArray);
-        }
+        
     })
 
     $(".presentation").on("click",".item-delete",function(){
@@ -111,12 +163,10 @@ jQuery(function(){
         if(ItemType == "DeleteProduct"){
             deleteProduct(ID);
         } 
-        else if(ItemType == "DeleteCustomer"){
+        if(ItemType == "DeleteCustomer"){
             deleteCustomer(ID);
         } 
-        // else {
-        //     //deleteOrder(ID);
-        // }
+       
     })
 
 }) 
@@ -126,6 +176,7 @@ jQuery(function(){
 function loadProducts(){
 
     $(".presentation").empty();
+    $("#my_dataviz").empty();
     $.ajax({
         method: "POST", 
         url: "/admin", 
@@ -142,70 +193,9 @@ function loadProducts(){
                                   <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ProductActionRadioOptions" id="CreateProductRadio" value="Create"><label class="form-check-label" for="CreateProductRadio">Create</label></div>\
                                   <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ProductActionRadioOptions" id="UpdateProductRadio" value="Update"><label class="form-check-label" for="UpdateProductRadio">Update</label></div>\
                                   <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ProductActionRadioOptions" id="DeleteProductRadio" value="Delete"><label class="form-check-label" for="DeleteProductRadio">Delete</label></div>');
-            let graphBtn = $('<button class="btn bg-white border-bottom-0 border rounded-pill ms-n5" id="graphDisplay">Show Graph</button>')
+            let graphBtn = $('<button class="btn bg-white border-bottom-0 border rounded-pill ms-n5 graphDisplay" id="graphDisplayProduct">Show Graph</button>');
             $(".ProductAdminControl").append([SearchProductID,ProductAction,graphBtn]);                      
-            $('#graphDisplay').on('click',()=>{
-                console.log("clicked");
-                //ADD HERE GRAPH D3  
-                var margin = {top: 10, right: 30, bottom: 30, left: 40},
-    width = 460 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
-
-// append the svg object to the body of the page
-var svg = d3.select("#my_dataviz")
-  .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
-
-// get the data
-// d3.json(products,(data){
-    
-// })
-d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/1_OneNum.csv", function(data) {
-
-  // X axis: scale and draw:
-  var x = d3.scaleLinear()
-      .domain([0, 1000])     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
-      .range([0, width]);
-  svg.append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
-
-  // set the parameters for the histogram
-  var histogram = d3.histogram()
-      .value(function(d) { return d.price; })   // I need to give the vector of value
-      .domain(x.domain())  // then the domain of the graphic
-      .thresholds(x.ticks(70)); // then the numbers of bins
-
-  // And apply this function to data to get the bins
-  var bins = histogram(data);
-
-  // Y axis: scale and draw:
-  var y = d3.scaleLinear()
-      .range([height, 0]);
-      y.domain([0, d3.max(bins, function(d) { return d.length; })]);   // d3.hist has to be called before the Y axis obviously
-  svg.append("g")
-      .call(d3.axisLeft(y));
-
-  // append the bar rectangles to the svg element
-  svg.selectAll("rect")
-      .data(bins)
-      .enter()
-      .append("rect")
-        .attr("x", 1)
-        .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
-        .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
-        .attr("height", function(d) { return height - y(d.length); })
-        .style("fill", "#69b3a2")
-
-});
-
-
-
-            }) 
+           
             let header = $('<tr><th>ID</th><th>Name</th><th>Price</th><th>Number Of Orders</th><th>Date Baked</th><th>Description</th></tr>') 
             $(".productTable").append(header);
             var products = res.Products;
@@ -459,11 +449,11 @@ function deleteProduct(ID) {
 
 function loadCustomers(){
     $(".presentation").empty();
+    $("#my_dataviz").empty();
     $.ajax({
         method: "POST", 
         url: "/admin", 
         success : function(res){
-
             let CustomerAdminControl = $('<div class="CustomerAdminControl"></div>');
             $(".presentation").append(CustomerAdminControl);
             let customerTable = $('<table class="customerTable"></table>');
@@ -475,7 +465,8 @@ function loadCustomers(){
             let CustomerAction =$('<div class="form-check form-check-inline"><input class="form-check-input List" type="radio" name="CustomerActionRadioOptions" id="ReadCustomerRadio" value="Read" checked><label class="form-check-label" for="ReadCustomerRadio">Read</label></div>\
                                   <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="CustomerActionRadioOptions" id="UpdateCustomerRadio" value="Update"><label class="form-check-label" for="UpdateCustomerRadio">Update</label></div>\
                                   <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="CustomerActionRadioOptions" id="DeleteCustomerRadio" value="Delete"><label class="form-check-label" for="DeleteCustomerRadio">Delete</label></div>');
-            $(".CustomerAdminControl").append([SearchCustomerID,CustomerAction]);                      
+            let graphBtn = $('<button class="btn bg-white border-bottom-0 border rounded-pill ms-n5 graphDisplay" id="graphDisplayCustomer">Show Graph</button>');
+            $(".CustomerAdminControl").append([SearchCustomerID,CustomerAction,graphBtn]);                      
 
             let header = $('<tr><th>ID</th><th>Username</th><th>Name</th><th>Phone Number</th><th>Address</th><th>Orders</th></tr>') 
             $(".customerTable").append(header);
@@ -685,6 +676,7 @@ function deleteCustomer(ID) {
 
 function loadOrders(){
     $(".presentation").empty();
+    $("#my_dataviz").empty();
     $.ajax({
         method: "POST", 
         url: "/admin", 
@@ -698,10 +690,9 @@ function loadOrders(){
             let SearchOrderID =$('<div class="input-group"><input class="form-control border-end-0 border rounded-pill" type="search" name="SearchOrderID" placeholder="Enter ID" id="search-input">\
                                     <div class="input-group-append"><button id="SearchOrder" class="btn bg-white border-bottom-0 border rounded-pill ms-n5 Search" type="submit" value="SearchOrder"><i class="fa fa-search"></i></button>\
                                     <button class="btn bg-white border-bottom-0 border rounded-pill ms-n5 List" type="submit" id="ListALLOrders" value="ListAllOrders">List All</button></div></div>');
-            let OrderAction =$('<div class="form-check form-check-inline"><input class="form-check-input List" type="radio" name="OrderActionRadioOptions" id="ReadOrderRadio" value="Read" checked><label class="form-check-label" for="ReadOrderRadio">Read</label></div>\
-                                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="OrderActionRadioOptions" id="UpdateOrderRadio" value="Update"><label class="form-check-label" for="UpdateOrderRadio">Update</label></div>\
-                                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="OrderActionRadioOptions" id="DeleteOrderRadio" value="Delete"><label class="form-check-label" for="DeleteOrderRadio">Delete</label></div>');
-            $(".OrderAdminControl").append([SearchOrderID,OrderAction]);                      
+            let OrderAction =$('<div class="form-check form-check-inline"><input class="form-check-input List" type="radio" name="OrderActionRadioOptions" id="ReadOrderRadio" value="Read" checked><label class="form-check-label" for="ReadOrderRadio">Read</label></div>');
+            let graphBtn = $('<button class="btn bg-white border-bottom-0 border rounded-pill ms-n5 graphDisplay" id="graphDisplayOrder">Show Graph</button>');                      
+            $(".OrderAdminControl").append([SearchOrderID,OrderAction,graphBtn]);                      
 
             let header = $('<tr><th>ID</th><th>Quantity</th><th>Products</th><th>Price</th><th>Date</th><th>Sniff</th></tr>') 
             $(".orderTable").append(header);

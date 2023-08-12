@@ -27,6 +27,13 @@ async function renderAdminPage(req,res){
     
 } 
 
+async function logout(req,res){
+    req.session.destroy();
+    url = "/c&c";
+    res.redirect(url);
+     
+ }
+
 async function getLists(req,res){
     const productList = await productService.getAllProducts();
     const customerList = await CustomerService.getAllCustomers();
@@ -292,6 +299,7 @@ async function postToFacebook(postMessage){
 
 module.exports = {
     renderAdminPage,
+    logout,
     getLists,
     readProduct,
     createNewProduct,

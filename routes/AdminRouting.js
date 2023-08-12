@@ -15,5 +15,6 @@ router.route('/readCustomer').post(adminController.readCustomer);
 router.route('/updateACustomer').post(adminController.updateACustomer);
 router.route('/deleteACustomer').post(adminController.deleteACustomer);
 router.route('/readOrder').post(adminController.readOrder);
+router.route('/logout').get(adminController.logout);
 
 module.exports = router;
