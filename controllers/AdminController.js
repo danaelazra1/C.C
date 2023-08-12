@@ -5,13 +5,9 @@ const cartService = require('../services/CartService');
 const orderService = require('../services/OrderService');
 const ObjectId = require('mongodb').ObjectId;
 
-
-var Cust = null;
-var products;
-
 async function cAndcRender(req,res){
   products = await productService.getAllProducts();
-  res.render("c&c",{Cust:Cust , Products : products});
+  res.render("c&c");
 }
 
 async function renderAdminPage(req,res){
@@ -107,6 +103,7 @@ async function createNewProduct(req,res){
     if (!isValidString(product[3])) { return res.status(400).send({ error: 'Invalid Product Picture' })}
     try {
         await productService.createProduct(product[0],product[1],product[2],product[3]);
+        await postToFacebook("Check out our new coockie - "+product[0]+" Only for "+product[1]);
         res.status(201).send({ Product: product[0] });
     } catch (error) {
          // Handle any errors that may occur during the database operation
@@ -279,7 +276,19 @@ async function readOrder(req,res){
         res.status(500).send({ error: 'Internal Server Error' });
     }
 }
-
+async function postToFacebook(postMessage){
+    const API_URL = "https://graph.facebook.com/v17.0";
+    const accessToken = "EAAEZAVtQEPhYBO50GrkLa3dvNFJAsrZCVs6SW8uBmH77ff8N7w8HIInAbQaZBbYq41ExMuCIq8muw5dyQTuUPMjVUUeOdSne5CfiChLxtZCMcBqSM4bZCJ8ZAG1hG3sD7RrTmHLz8s073tk1f8UZBr4lz1UsGcgTs85ZBHuEKQEMZC1DkzBniaVXRpJPm3UE47EdlPZBNx3pFvOmuokx8u4wZDZD"
+    const pageRes = await fetch(API_URL+'/me?access_token='+accessToken+'&fields=id,name');
+    const pageObj = await pageRes.json();
+    const pageID = pageObj.id;
+    
+    console.log(API_URL+'/'+pageID+'/feed?access_token=')
+     const postRes = await fetch(API_URL+'/'+pageID+'/feed?message='+postMessage+'&access_token='+accessToken,{
+        method:"POST"
+    })
+   
+}
 
 module.exports = {
     renderAdminPage,
